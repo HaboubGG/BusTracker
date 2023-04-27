@@ -251,3 +251,49 @@ table tbody tr:hover {
     background-color: #fffbfc;
     -webkit-font-smoothing: antialiased;
 }
+
+
+
+
+/** Navigation */
+.nav {
+    flex: 1;
+    max-width: 180px;
+    background-color: #007ea7;
+    -webkit-font-smoothing: antialiased;
+}
+.nav__logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    color: #ccc;
+    font-size: 24px;
+    letter-spacing: 1px;
+    background-color: #00171f;
+    cursor: default;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 1);
+    cursor: pointer;
+}
+.nav__list {
+    margin: 40px 0 0;
+    padding: 0;
+    list-style: none;
+}
+.nav__list-item {
+    position: relative;
+}
+.nav__list-item--active {
+    padding: 10px 0 10px 15px;
+}
+.nav__list-item--active .nav__item-link {
+    padding: 15px 15px;
+    color: #1a1a1a;
+    font-weight: 700;
+    background-color: #fffbfc;
+}
+.nav__item-link {
+    display: block;
+    padding: 10px 30px;
+    color: #eee;
+}

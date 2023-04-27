@@ -107,7 +107,7 @@ public class MainController {
         }
     }
     @PostMapping("/dashboard/delete")
-public String deleteProduct(@RequestParam("id") int id , Model model, HttpSession session)
+public String deleteUser(@RequestParam("id") int id , Model model, HttpSession session)
     {
         UsersModel user = (UsersModel) session.getAttribute("user");
         List<UsersModel> UsersList = usersService.listUsers();
