@@ -23,12 +23,14 @@
         <li> <a href="/login"> LOGIN </a> </li>
         <li> <a href="#about"> ABOUT </a> </li>
         <li th:if="${user.getRole()==2}"> <a>Hello there </a> </li>
+        <li th:if="${user.getRole()==3}"> <a href="/dashboard">Dashboard</a> </li>
         <li> <a href="/editProfile" th:text="${user.getLogin()}"></a> </li>
+        <li> <a href="/logout"> LOGOUT</a></li>
     </ul>
 </nav>
-
+<header>
 <div class="typing animate"></div>
-
+</header>
 <!-- End Navigation Bar-->
 </body>
 </html>

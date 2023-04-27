@@ -7,7 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+
 
 @Service
 public class UsersService {
@@ -56,7 +60,6 @@ public class UsersService {
 
     public UsersModel UpdateProfile(String ReferenceEmail,String NewLogin , String NewEmail)
     {
-
         UsersModel Existinguser = usersRepository.findFirstByEmail(ReferenceEmail);
         if(Existinguser!=null && NewEmail != ReferenceEmail) {
             UsersModel checkNewEmail = usersRepository.findFirstByEmail(NewEmail);
@@ -71,6 +74,32 @@ public class UsersService {
             return null;
         }
     }
+
+    public UsersModel ChangePassword(String ReferenceEmail ,String currentPassword , String newPassword)
+    {
+        UsersModel Existinguser = usersRepository.findFirstByEmail(ReferenceEmail);
+        if(Existinguser!=null)
+        {
+            String encodedPassword =Existinguser.getPassword();
+            if( passwordEncoder.matches(currentPassword, encodedPassword))
+            {
+                Existinguser.setPassword(passwordEncoder.encode(newPassword));
+                UsersModel UpdatedUser = usersRepository.save(Existinguser);
+                return UpdatedUser;
+            }
+            else return  null;
+        }
+        else return null;
+    }
+    public List<UsersModel> listUsers()
+    {
+        List<UsersModel> Users = usersRepository.findAll();
+     return Users;
+    }
+public void deleteUser(int id)
+{
+    usersRepository.deleteById(id);
+}
 
 
 }
