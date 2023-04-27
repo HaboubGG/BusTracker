@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Login</title>
   <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+    <script src="/webjars/bootstrap/5.1.3/js/bootstrap.min.js"></script>
 </head>
 <body>
 <div class="logo">
@@ -11,10 +13,13 @@
 </div>
 <div class="form">
   <form method="post" action="/login" th:object="${loginRequest}">
+
+    <div class="alert alert-danger" role="alert" th:if="${param.error != null}">
+Invalid Email or Password  </div>
     <h2>Login</h2>
     <div class="input-box">
       <i class="fa fa-user" aria-hidden="true"></i>
-      <input type="Text" name="login" placeholder="Username" required>
+      <input type="email" name="email" placeholder="Email" required>
     </div>
     <div class="input-box">
       <i class="fa fa-unlock-alt" aria-hidden="true"></i>

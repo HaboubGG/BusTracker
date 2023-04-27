@@ -1,13 +1,34 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Main</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+    <link rel="stylesheet" href="css/Main.css">
+    <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+    <script src="/webjars/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+    <title>CleverVision</title>
 </head>
 <body>
-<h1> Hi there its Main !
-<span th:text="${userLogin}">
+<!--Navigation Bar-->
+<div class="logo">
+    <h1> CleverVision </h1>
+</div>
+<span id="close"> <img style="width: 25px;" src="http://www.pvhc.net/img5/onbbqnqzkjrtvirmiqnp.png" alt="CLOSE"> </img> </span>
+<span id="menu"> <img style="width: 25px;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR11WXR-a18XfNZknL7S4lu0lLyC4aWZPY4sLd4wNHUNv9So2gd" alt="MENU"> </span>
+<nav>
+    <ul>
+        <li> <a href=""> HOME </a> </li>
+        <li> <a href="/login"> LOGIN </a> </li>
+        <li> <a href="#about"> ABOUT </a> </li>
+        <li th:if="${user.getRole()==2}"> <a>Hello there </a> </li>
+        <li> <a href="/editProfile" th:text="${user.getLogin()}"></a> </li>
+    </ul>
+</nav>
 
-</span></h1>
+<div class="typing animate"></div>
+
+<!-- End Navigation Bar-->
 </body>
 </html>

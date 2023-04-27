@@ -21,7 +21,7 @@ public class UsersService {
 
     public UsersModel registerUser(String login , String password , String email)
     {
-        if(usersRepository.findFirstByEmail(email).isPresent())
+        if(usersRepository.findFirstByEmail(email)!=null)
         {
             System.out.println("Email is already used by another account");
             return null;
@@ -33,6 +33,7 @@ public class UsersService {
             String encodedPassword = passwordEncoder.encode(password);
             newUser.setPassword(encodedPassword);
             newUser.setEmail(email);
+            newUser.setRole(1);
             return usersRepository.save(newUser);
         }
         else
@@ -40,15 +41,36 @@ public class UsersService {
             return null;
         }
     }
-    public UsersModel authenticate(String login , String password)
+    public UsersModel authenticate(String email , String password)
     {
-        UsersModel user = usersRepository.findFirstByLogin(login);
+        UsersModel user = usersRepository.findFirstByEmail(email);
         if (user != null) {
             String encodedPassword = user.getPassword();
             if( passwordEncoder.matches(password, encodedPassword))
             {
                 return user;
             }
-        }return user;
+        }
+        return null;
     }
+
+    public UsersModel UpdateProfile(String ReferenceEmail,String NewLogin , String NewEmail)
+    {
+
+        UsersModel Existinguser = usersRepository.findFirstByEmail(ReferenceEmail);
+        if(Existinguser!=null && NewEmail != ReferenceEmail) {
+            UsersModel checkNewEmail = usersRepository.findFirstByEmail(NewEmail);
+            if(checkNewEmail == null) {
+                Existinguser.setEmail(NewEmail);
+            }
+            Existinguser.setLogin(NewLogin);
+            UsersModel UpdatedUser = usersRepository.save(Existinguser);
+            return UpdatedUser;
+        }
+        else{
+            return null;
+        }
+    }
+
+
 }

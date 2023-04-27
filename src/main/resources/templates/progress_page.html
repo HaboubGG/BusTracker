@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script>
+    function disp(){
+        var step=1; // Change this step value
+        //alert("Hello");
+        var y=document.getElementById('i1').offsetTop;
+        var x=document.getElementById('i1').offsetLeft;
+        document.getElementById("msg").innerHTML="X: " + x  + " Y : " + y
+        // if(y < 400 ){y= y +step;
+        // document.getElementById('i1').style.top= y + "px"; // vertical movment
+        // }else{
+        if(x < 400){x= x +step;
+            document.getElementById('i1').style.left= x + "px";//horizontal move
+        }
+    }
+    //}
+    function timer(){
+        disp();
+        my_time=setTimeout('timer()',10);
+    }
+    //-->
+</script>
+<body>
+<img src="../../../public/image_processing20200728-18746-129z04b.png" id='i1' style="position:absolute; left: 500; top: 100;">
+<br><br><br><br>
+<input type=button onClick=timer() value='start'>
+<input type=button onClick=reset1() value='Reset'>
+<div id='msg'></div>
+</body>
+</html>
