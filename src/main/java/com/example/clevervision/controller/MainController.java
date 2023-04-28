@@ -1,15 +1,12 @@
 package com.example.clevervision.controller;
 
-import com.example.clevervision.model.PasswordChangeRequest;
 import com.example.clevervision.model.UsersModel;
+import com.example.clevervision.model.VoyageModel;
+import com.example.clevervision.service.BusService;
 import com.example.clevervision.service.UsersService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,11 +16,13 @@ import java.util.List;
 @Controller
 public class MainController {
     private final UsersService usersService;
+    private final BusService busService;
     @Autowired
     private HttpServletRequest request;
 
-    public MainController(UsersService usersService) {
+    public MainController(UsersService usersService, BusService busService) {
         this.usersService = usersService;
+        this.busService = busService;
     }
 
     @GetMapping("/main")
@@ -31,6 +30,10 @@ public class MainController {
         UsersModel user = (UsersModel) session.getAttribute("user");
         if (user != null) {
             model.addAttribute("user", user);
+            VoyageModel voyageModel = busService.VoyageData();
+            if(voyageModel!=null) {
+                model.addAttribute("VoyageData", voyageModel);
+            }
             return "main_page";
         } else {
             return "redirect:/login";
@@ -51,7 +54,6 @@ public class MainController {
     @GetMapping("/editProfile")
     public String showEditProfilePage(Model model, HttpSession session) {
         UsersModel user = (UsersModel) session.getAttribute("user");
-        model.addAttribute("editProfileRequest",new PasswordChangeRequest());
         if (user != null) {
             model.addAttribute("user", user);
             return "editProfile_page";
@@ -114,6 +116,16 @@ public String deleteUser(@RequestParam("id") int id , Model model, HttpSession s
         model.addAttribute("UsersList", UsersList);
         model.addAttribute("user",user);
         usersService.deleteUser(id);
+        return "redirect:/dashboard";
+    }
+    @PostMapping("/dashboard/editRole")
+    public String editRole(@RequestParam("id") int id,@RequestParam("role") String role , Model model, HttpSession session)
+    {
+        UsersModel user = (UsersModel) session.getAttribute("user");
+        List<UsersModel> UsersList = usersService.listUsers();
+        model.addAttribute("UsersList", UsersList);
+        model.addAttribute("user",user);
+        usersService.EditRole(role,id);
         return "redirect:/dashboard";
     }
 

@@ -1,0 +1,283 @@
+html{
+    scroll-behavior: smooth;
+
+}
+body{
+    background: var(--clr-gray100);
+    font-family: Segoe UI, Helvetica, calibri, serif;
+
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: 0;
+}
+
+input,
+textarea,
+button,
+select, img, span,
+a {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    outline: 0;
+}
+
+/*Navigation Bar*/
+.logo {
+    position: absolute;
+     margin-top: 15px;
+    font-size: 16px;
+    margin-left: 13px;
+}
+
+.logo h1 {
+    font-family: Segoe UI, Helvetica, calibri, serif;
+    margin-top: 4px;
+}
+
+#menu {
+    position: absolute;
+    right: 20px;
+    top: 17px;
+    cursor: pointer;
+    display: none;
+}
+
+#close {
+    position: absolute;
+    top: 17px;
+    right: 20px;
+    cursor: pointer;
+    display: none;
+}
+
+nav ul {
+    display: block;
+    float: right;
+    overflow: hidden;
+    margin: 7px 0;
+    margin-right: 10px;
+}
+
+nav ul li {
+    list-style-type: none;
+    float: left;
+    text-align: center;
+    padding: 10px;
+    font-family: 'Roboto', Helvetica, sans-serif;
+    font-size: 17px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: black;
+}
+
+@media screen and (max-width: 617px) {
+    .logo {
+        margin-top: 7px;
+        position: relative;
+        overflow: hidden;
+        display: block;
+        font-size: 14px;
+    }
+    .logo h1 {
+        position: relative;
+        margin-bottom: 10px;
+    }
+    nav {
+        width: 100vw;
+        height: 100vh;
+        display: none;
+    }
+    nav ul {
+        padding-top: 20px;
+        display: block;
+        width: 100%;
+        margin: auto;
+    }
+    .nav-expanded {
+        display: block;
+    }
+    nav ul li {
+        float: none;
+        border-bottom: 2px solid #D8D8D8;
+    }
+    nav ul li:last-child {
+        border-bottom: none;
+    }
+    #menu {
+        display: block;
+    }
+}
+/*Navigation Bar*/
+
+
+
+/*Hero Image*/
+header {
+    width: 100vw;
+    height: 28vh;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color:rgba(255, 255, 255, 0.993);
+}
+
+.header-text {
+    width: 500px;
+    text-align: center;
+}
+
+header h1 {
+    margin-bottom: 10px;
+    font-family: League Spartan, sans-serif;
+    font-weight: 500;
+    font-size: 45px;
+    color: white;
+}
+
+#photography {
+    font-size: 60px;
+    letter-spacing: 0.5px;
+}
+
+header p {
+    margin-bottom: 20px;
+    font-family: 'Open Sans', Helvetica, sans-serif;
+    color: white;
+    font-size: 18px;
+}
+
+header button {
+    border: 2px solid white;
+    color: white;
+    font-family: 'Roboto', Segoe UI, calibri, Helvetica, serif;
+    padding: 10px;
+    font-size: 18px;
+    width: 160px;
+    border-radius: 500px;
+    cursor: pointer;
+    background-color: transparent;
+    transition: all 0.2s ease-in-out;
+}
+
+header button:hover, button:active {
+    background-color: white;
+    color: black;
+}
+
+@media screen and (max-width: 676px) {
+    .header-text {
+        width: 95%;
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 601px) {
+    #photography {
+        font-size: 45px;
+    }
+    header h1 {
+        font-size: 30px;
+    }
+    header p {
+        font-size: 15px;
+        width: 85%;
+        display: block;
+        margin: auto;
+        margin-bottom: 20px;
+    }
+    header button {
+        font-size: 16px;
+        width: 140px;
+    }
+}
+
+@media screen and (max-width: 460px) {
+    #photography {
+        font-size: 35px;
+    }
+    header h1 {
+        font-size: 28px;
+    }
+}
+.about{
+    margin-right: 100px;
+    margin-left: 100px;
+    margin-bottom: 50px;
+}
+.title{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+    font-family: Segoe UI, Helvetica, calibri, serif;
+}
+
+.typing.animate {
+    width: 21ch;
+    border-right: 0.1em solid rgb(255, 255, 255);
+    font-family: monospace;
+    font-size: 2em;
+    animation: type 2.5s steps(20), writer 1s infinite alternate, delete 0.5s steps(5) 2.5s, type2 1s steps(4) 3s forwards, type3 3s steps(22, end) 6s forwards;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+
+}
+
+.typing.animate::before {
+    content: "Hello, its CleverVision.";
+    animation: type2 1s steps(4) 3s forwards, type3 3s steps(22, end) 6s forwards;
+}
+
+@keyframes type {
+    from {
+        width: 0;
+    }
+    to {
+        width: 21ch;
+    }
+}
+
+@keyframes type2 {
+    from {
+        width: 16ch;
+        content: "Hello, its CleverVision. "
+    }
+    to {
+        width: 24ch;
+        content: "Hello, its CleverVision. "
+    }
+}
+
+@keyframes type3 {
+    from {
+        width: 20ch;
+        content: "Hello, its CleverVision, Welcome to our Website!"
+    }
+    to {
+        width: 50ch;
+        content: "Hello, its CleverVision, Welcome to our Website!"
+    }
+}
+
+@keyframes writer {
+    50% {
+        border-color: transparent;
+    }
+}
+
+@keyframes delete {
+    from {
+        width: 21ch;
+    }
+    to {
+        width: 16ch;
+    }
+}

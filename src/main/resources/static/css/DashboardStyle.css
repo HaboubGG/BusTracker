@@ -133,7 +133,6 @@ h2 {
     margin-bottom: 10px;
 }
 table {
-    margin-top: 20px;
     width: 100%;
     color: #29516d;
     font-size: 14px;
@@ -165,17 +164,20 @@ table tbody tr:hover {
 .btn-delete {
     background-color: #d90000;
 }
+
 /** Container */
 .app-container {
     display: flex;
     flex-flow: row wrap;
     height: 100vh;
+    width: 100%;
 }
 /** App View */
 .app-view {
     display: flex;
     flex: 1;
     flex-direction: column;
+    width: 100%;
 }
 /** Utility Bar */
 .utility-bar {
@@ -262,19 +264,6 @@ table tbody tr:hover {
     background-color: #007ea7;
     -webkit-font-smoothing: antialiased;
 }
-.nav__logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50px;
-    color: #ccc;
-    font-size: 24px;
-    letter-spacing: 1px;
-    background-color: #00171f;
-    cursor: default;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 1);
-    cursor: pointer;
-}
 .nav__list {
     margin: 40px 0 0;
     padding: 0;
@@ -296,4 +285,6 @@ table tbody tr:hover {
     display: block;
     padding: 10px 30px;
     color: #eee;
+}
+header{
 }

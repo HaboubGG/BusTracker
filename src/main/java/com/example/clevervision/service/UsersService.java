@@ -96,9 +96,26 @@ public class UsersService {
         List<UsersModel> Users = usersRepository.findAll();
      return Users;
     }
+
 public void deleteUser(int id)
 {
     usersRepository.deleteById(id);
+}
+public void EditRole(String role,int id)
+{
+    UsersModel user = usersRepository.findFirstById(id);
+    if (role.equals("User"))
+    {
+    user.setRole(1);
+    }
+    else if(role.equals("Driver"))
+    {
+        user.setRole(2);
+    }
+    else{
+        user.setRole(3);
+    }
+    usersRepository.save(user);
 }
 
 
