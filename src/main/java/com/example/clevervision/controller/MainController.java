@@ -6,7 +6,9 @@ import com.example.clevervision.service.BusService;
 import com.example.clevervision.service.UsersService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,11 +34,24 @@ public class MainController {
             model.addAttribute("user", user);
             VoyageModel voyageModel = busService.VoyageData();
             if(voyageModel!=null) {
-                model.addAttribute("VoyageData", voyageModel);
+                model.addAttribute("VoyageData", voyageModel.getBusPosition());
             }
             return "main_page";
         } else {
             return "redirect:/login";
+        }
+    }
+    @GetMapping("/main/bus")
+    public ResponseEntity<Integer> GetPosition()
+    {
+        VoyageModel voyageModel = busService.VoyageData();
+        if(voyageModel!=null)
+        {
+            Integer data = voyageModel.getBusPosition();
+            return ResponseEntity.ok(data);
+        }
+        else{
+            return ResponseEntity.ofNullable(0);
         }
     }
 

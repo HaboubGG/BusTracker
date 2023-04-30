@@ -1,35 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
     <title>Title</title>
 </head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    function disp(){
-        var step=1; // Change this step value
-        //alert("Hello");
-        var y=document.getElementById('i1').offsetTop;
-        var x=document.getElementById('i1').offsetLeft;
-        document.getElementById("msg").innerHTML="X: " + x  + " Y : " + y
-        // if(y < 400 ){y= y +step;
-        // document.getElementById('i1').style.top= y + "px"; // vertical movment
-        // }else{
-        if(x < 400){x= x +step;
-            document.getElementById('i1').style.left= x + "px";//horizontal move
-        }
+    function updateData() {
+        // Make an AJAX request to your Spring Boot server
+        $.ajax({
+            url: "/main/bus",
+            type: "GET",
+            success: function(response) {
+                // Convert the integer response to a string
+                var responseString = response.toString();
+                // Update the content of the div with the fetched data
+                $("#my-div").text(responseString);
+            },
+            error: function(xhr) {
+                console.log(xhr.responseText);
+            }
+        });
     }
-    //}
-    function timer(){
-        disp();
-        my_time=setTimeout('timer()',10);
-    }
-    //-->
+
+    // Call the updateData function every second
+    setInterval(updateData, 1000);
 </script>
+
 <body>
-<img src="../../../public/image_processing20200728-18746-129z04b.png" id='i1' style="position:absolute; left: 500; top: 100;">
-<br><br><br><br>
-<input type=button onClick=timer() value='start'>
-<input type=button onClick=reset1() value='Reset'>
-<div id='msg'></div>
+<div id="my-div"></div>
 </body>
 </html>

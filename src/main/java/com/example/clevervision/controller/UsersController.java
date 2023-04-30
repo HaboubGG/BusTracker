@@ -34,7 +34,7 @@ public String getProgressPage(Model model)
         model.addAttribute("loginRequest",new UsersModel());
         return "login_page";
     }
-
+//aaaaaaaaaaaaaa
     @PostMapping("/register")
     public String register(@ModelAttribute UsersModel usersModel)
     {
@@ -43,6 +43,7 @@ public String getProgressPage(Model model)
     UsersModel registeredUser = usersService.registerUser(usersModel.getLogin(),usersModel.getPassword(),usersModel.getEmail());
     return registeredUser == null ? "error_page" : "redirect:/login" ;
     }
+
     @PostMapping("/login")
     public String login(@ModelAttribute UsersModel usersModel , Model model , HttpSession session)
     {
