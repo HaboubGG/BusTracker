@@ -25,6 +25,7 @@
     <ul>
         <li> <a href="/main"><i class="bi bi-house-door-fill"></i>  HOME </a> </li>
         <li th:if="${user.getRole()==3}"> <a href="/dashboard"> <i class="bi bi-shield-fill"></i> DASHBOARD</a> </li>
+        <li th:if="${user.getRole()==2}"> <a href="/driverDashboard"><i class="bi bi-shield-fill"></i> DRIVER DASHBOARD</a> </li>
         <li><i class="bi bi-person-fill"></i> <a href="/editProfile" th:text="${user.getLogin()}"></a> </li>
         <li> <a href="/logout"><i class="bi bi-box-arrow-right"></i> LOGOUT</a></li>
     </ul>
@@ -34,13 +35,7 @@
 </header>
 
 <canvas id="canvas" width="1857px" height="1080px"></canvas>
-<!--<h1  th:text="${VoyageData.getBusPosition()}"></h1>-->
-<input th:if="${VoyageData!=null}" th:value="${VoyageData}" id="myText">
-<h1 id="counter">wa</h1>
-<button onclick="displayRas( ${VoyageData.getBusPosition()} )">Display Product Details</button>
-<form method="post" action="/StartBus" th:object="${StartBusRequest}" onsubmit="return confirm('are you sure you want to start this bus ? ')">
-<button type="submit" onclick="StartBus();">Start bus !</button>
-</form>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <script th:inline="javascript">
     const canvas = document.getElementById("canvas");

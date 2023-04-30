@@ -30,6 +30,7 @@
   <ul>
     <li> <a href=""><i class="bi bi-house-door-fill"></i> HOME </a> </li>
     <li th:if="${user.getRole()==3}"> <a href="/dashboard"> <i class="bi bi-shield-fill"></i> DASHBOARD</a> </li>
+    <li th:if="${user.getRole()==2}"> <a href="/driverDashboard"><i class="bi bi-shield-fill"></i> DRIVER DASHBOARD</a> </li>
     <li><i class="bi bi-person-fill"></i> <a href="/editProfile" th:text="${user.getLogin()}"></a> </li>
     <li> <a href="/logout"><i class="bi bi-box-arrow-right"></i> LOGOUT</a></li>
   </ul>

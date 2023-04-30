@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Controller
 public class BusController {
@@ -21,10 +24,13 @@ public class BusController {
     }
 
     @PostMapping("/StartBus")
-    public String StartBus(Model model, HttpSession session)
+    public String StartBus(Model model, HttpSession session,
+                           @RequestParam("driverId") int driverId,
+                           @RequestParam("destination") int destination,
+                           @RequestParam("busId") int busId)
    {
        UsersModel user = (UsersModel) session.getAttribute("user");
-       busService.AddVoyage();
+       busService.AddVoyage(busId , destination,driverId);
        busService.updateBusPositions();
        model.addAttribute("user",user);
      return("redirect:/main");

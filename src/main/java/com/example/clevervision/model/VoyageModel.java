@@ -19,9 +19,11 @@ public class VoyageModel {
 
     Integer enRoute ;
     Integer busPosition;
-    public Integer getId() {
-        return id;
-    }
+
+    Integer destination;
+
+    Integer busId;
+    Integer driverId;
 
     @Override
     public String toString() {
@@ -29,8 +31,11 @@ public class VoyageModel {
                 "id=" + id +
                 ", HeureDepart=" + HeureDepart +
                 ", HeureArrive=" + HeureArrive +
-                ", HeureArrive=" + enRoute +
-                ", HeureArrive=" + busPosition +
+                ", enRoute=" + enRoute +
+                ", busPosition=" + busPosition +
+                ", destination=" + destination +
+                ", busId=" + busId +
+                ", driverId=" + driverId +
                 '}';
     }
 
@@ -39,12 +44,40 @@ public class VoyageModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         VoyageModel that = (VoyageModel) o;
-        return Objects.equals(id, that.id) && Objects.equals(HeureDepart, that.HeureDepart) && Objects.equals(HeureArrive, that.HeureArrive) && Objects.equals(enRoute, that.enRoute) && Objects.equals(busPosition, that.busPosition);
+        return Objects.equals(id, that.id) && Objects.equals(HeureDepart, that.HeureDepart) && Objects.equals(HeureArrive, that.HeureArrive) && Objects.equals(enRoute, that.enRoute) && Objects.equals(busPosition, that.busPosition) && Objects.equals(destination, that.destination) && Objects.equals(busId, that.busId) && Objects.equals(driverId, that.driverId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, HeureDepart, HeureArrive, enRoute, busPosition);
+        return Objects.hash(id, HeureDepart, HeureArrive, enRoute, busPosition, destination, busId, driverId);
+    }
+
+    public Integer getDestination() {
+        return destination;
+    }
+
+    public void setDestination(Integer destination) {
+        this.destination = destination;
+    }
+
+    public Integer getBusId() {
+        return busId;
+    }
+
+    public void setBusId(Integer busId) {
+        this.busId = busId;
+    }
+
+    public Integer getDriverId() {
+        return driverId;
+    }
+
+    public void setDriverId(Integer driverId) {
+        this.driverId = driverId;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public Integer getBusPosition() {

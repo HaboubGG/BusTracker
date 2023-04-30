@@ -55,6 +55,17 @@ public class MainController {
         }
     }
 
+    @GetMapping("/driverDashboard")
+    public String showDashboardDriverPage(Model model, HttpSession session) {
+        UsersModel user = (UsersModel) session.getAttribute("user");
+        if (user != null) {
+            model.addAttribute("user", user);
+            return "driverDashboard_page";
+        } else {
+            return "redirect:/login";
+        }
+    }
+
     @RequestMapping(value="/logout", method = RequestMethod.GET)
     public String logoutPage() {
        HttpSession session = request.getSession(false);
