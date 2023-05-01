@@ -58,8 +58,11 @@ public class MainController {
     @GetMapping("/driverDashboard")
     public String showDashboardDriverPage(Model model, HttpSession session) {
         UsersModel user = (UsersModel) session.getAttribute("user");
-        if (user != null) {
+
+        if (user != null && user.getRole()==2) {
             model.addAttribute("user", user);
+            List<VoyageModel> VoyageList = busService.listVoyage(user.getId());
+            model.addAttribute("VoyageList", VoyageList);
             return "driverDashboard_page";
         } else {
             return "redirect:/login";
@@ -87,6 +90,20 @@ public class MainController {
             return "redirect:/login";
         }
     }
+
+    @GetMapping("/travelDashboard")
+    public String showTravelDashboardPage(Model model, HttpSession session) {
+        UsersModel user = (UsersModel) session.getAttribute("user");
+        if (user != null && user.getRole()==3) {
+            model.addAttribute("user", user);
+            List<UsersModel> DriversList = usersService.listDrivers();
+            model.addAttribute("DriversList", DriversList);
+            return "TravelDashboard_page";
+        } else {
+            return "redirect:/login";
+        }
+    }
+
     @PostMapping("/editProfile")
     public String editProfile(@ModelAttribute UsersModel usersModel, Model model, HttpSession session) {
         System.out.println("Edit profile request: " + usersModel);

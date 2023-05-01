@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalTime;
 import java.util.List;
 
 @Controller
@@ -27,13 +28,23 @@ public class BusController {
     public String StartBus(Model model, HttpSession session,
                            @RequestParam("driverId") int driverId,
                            @RequestParam("destination") int destination,
-                           @RequestParam("busId") int busId)
+                           @RequestParam("busId") int busId,
+                           @RequestParam("startTime") LocalTime startTime
+    )
    {
        UsersModel user = (UsersModel) session.getAttribute("user");
-       busService.AddVoyage(busId , destination,driverId);
+       busService.AddVoyage(busId , destination,driverId , startTime);
        busService.updateBusPositions();
        model.addAttribute("user",user);
      return("redirect:/main");
+   }
+   @PostMapping("/dashboard/StartBusNow")
+    public String StartBusNow(Model model , HttpSession session , @RequestParam("id") int id )
+   {
+       UsersModel user = (UsersModel) session.getAttribute("user");
+       busService.StartBusNow(id);
+       model.addAttribute("user",user);
+       return("redirect:/main");
    }
 
 

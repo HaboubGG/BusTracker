@@ -96,6 +96,12 @@ public class UsersService {
         List<UsersModel> Users = usersRepository.findAll();
      return Users;
     }
+    public List<UsersModel> listDrivers()
+    {
+        List<UsersModel> Users = usersRepository.findAllByRoleEquals(2);
+        return Users;
+    }
+
 
 public void deleteUser(int id)
 {

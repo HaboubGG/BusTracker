@@ -3,6 +3,7 @@ package com.example.clevervision.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Objects;
 
 @Entity
@@ -11,11 +12,9 @@ public class VoyageModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id ;
-    @Temporal(TemporalType.TIMESTAMP)
-    LocalDateTime HeureDepart = LocalDateTime.now();
+    LocalTime HeureDepart;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    LocalDateTime HeureArrive;
+    LocalTime HeureArrive;
 
     Integer enRoute ;
     Integer busPosition;
@@ -93,11 +92,11 @@ public class VoyageModel {
     }
 
 
-    public LocalDateTime getHeureDepart() {
+    public LocalTime getHeureDepart() {
         return HeureDepart;
     }
 
-    public void setHeureDepart(LocalDateTime heureDepart) {
+    public void setHeureDepart(LocalTime heureDepart) {
         HeureDepart = heureDepart;
     }
 
@@ -110,11 +109,11 @@ public class VoyageModel {
         this.enRoute = enRoute;
     }
 
-    public LocalDateTime getHeureArrive() {
+    public LocalTime getHeureArrive() {
         return HeureArrive;
     }
 
-    public void setHeureArrive(LocalDateTime heureArrive) {
+    public void setHeureArrive(LocalTime heureArrive) {
         HeureArrive = heureArrive;
     }
 

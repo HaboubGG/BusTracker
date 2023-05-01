@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -27,13 +28,19 @@ public class BusService {
         }
     }
 
-    public void AddVoyage(int busId , int destination , int driverId)
+    public List<VoyageModel> listVoyage(int id)
+    {
+        List<VoyageModel> VoyageList = busRepository.findAllByDriverId(id);
+        return VoyageList;
+    }
+
+
+    public void AddVoyage(int busId , int destination , int driverId , LocalTime startTime)
     {
         VoyageModel newVoy = new VoyageModel();
-        LocalDateTime currentTime = LocalDateTime.now();
-        LocalDateTime heureArrive = currentTime.plus(Duration.ofMinutes(20));
-        newVoy.setHeureArrive(heureArrive);
-        newVoy.setEnRoute(1);
+        newVoy.setHeureDepart(startTime);
+        newVoy.setHeureArrive(startTime.plusMinutes(20));
+        newVoy.setEnRoute(0);
         if(destination == 1)
         {
             newVoy.setBusPosition(0);
@@ -45,6 +52,12 @@ public class BusService {
         newVoy.setDestination(destination);
         newVoy.setDriverId(driverId);
         busRepository.save(newVoy);
+    }
+    public void StartBusNow(int id)
+    {
+        VoyageModel bus = busRepository.findFirstById(id);
+        bus.setEnRoute(1);
+        busRepository.save(bus);
     }
 
     @Scheduled(fixedRate = 1000) // Run every second
