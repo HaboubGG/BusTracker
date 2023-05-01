@@ -42,13 +42,13 @@
           <a href="#" class="nav__item-link">Dashboard</a>
         </li>
         <li class="nav__list-item nav__list-item--active">
-          <a href="/dashboard" class="nav__item-link">Users dashboard</a>
+          <a href="/dashboard" class="nav__item-link">Users </a>
         </li>
         <li class="nav__list-item">
-          <a href="/travelDashboard" class="nav__item-link">Travel dashboard</a>
+          <a href="/travelDashboard" class="nav__item-link">Travel </a>
         </li>
         <li class="nav__list-item">
-          <a href="#" class="nav__item-link">Locations</a>
+          <a href="/dashboardBus" class="nav__item-link">Bus</a>
         </li>
         <li class="nav__list-item">
           <a href="#" class="nav__item-link">Contracts</a>
@@ -109,13 +109,12 @@
             <label class="col-lg-3 control-label"><Strong>Select Bus ID</Strong></label>
             <div class="col-lg-5">
               <select class="form-select" aria-label="Default select example" name="busId">
-                <option value="1" selected>1</option>
-                <option value="2">2</option>
+                <option th:each="bus:${BusList}"
+                        th:value="${bus.getMat()}"
+                        th:text="${bus.getMat()}" selected></option>
               </select>
             </div>
           </div>
-
-
           <div class="col-md-8">
             <input type="submit"  value="Start Bus" class="submit-button">
             <span></span>

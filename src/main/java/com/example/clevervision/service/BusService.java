@@ -1,8 +1,10 @@
 package com.example.clevervision.service;
 
+import com.example.clevervision.model.BusModel;
 import com.example.clevervision.model.UsersModel;
 import com.example.clevervision.model.VoyageModel;
 import com.example.clevervision.repository.BusRepository;
+import com.example.clevervision.repository.GarageRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +16,11 @@ import java.util.List;
 @Service
 public class BusService {
     private final BusRepository busRepository;
+    private final GarageRepository garageRepository;
 
-    public BusService(BusRepository busRepository) {
+    public BusService(BusRepository busRepository , GarageRepository garageRepository) {
         this.busRepository = busRepository;
+        this.garageRepository=garageRepository;
     }
     public VoyageModel VoyageData()
     {VoyageModel voyageModel = busRepository.findFirstByEnRoute(1);
@@ -32,6 +36,31 @@ public class BusService {
     {
         List<VoyageModel> VoyageList = busRepository.findAllByDriverId(id);
         return VoyageList;
+    }
+    public Boolean AddBus(int mat , String marque)
+    {
+        if( garageRepository.findFirstByMat(mat) == null ) {
+            BusModel bus = new BusModel();
+            bus.setMat(mat);
+            bus.setMarque(marque);
+            bus.setDispo(true);
+            garageRepository.save(bus);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public List<BusModel> showBusList()
+    {
+        List <BusModel> busList = garageRepository.findAll();
+        return busList;
+    }
+    public List<BusModel> showBusDispoList()
+    {
+        List <BusModel> busList = garageRepository.findAllByDispo(true);
+        return busList;
     }
 
 

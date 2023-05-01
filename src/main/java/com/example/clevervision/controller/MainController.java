@@ -1,5 +1,6 @@
 package com.example.clevervision.controller;
 
+import com.example.clevervision.model.BusModel;
 import com.example.clevervision.model.UsersModel;
 import com.example.clevervision.model.VoyageModel;
 import com.example.clevervision.service.BusService;
@@ -68,6 +69,19 @@ public class MainController {
             return "redirect:/login";
         }
     }
+    @GetMapping("/dashboardBus")
+    public String showDashboardBusPage(Model model, HttpSession session) {
+        UsersModel user = (UsersModel) session.getAttribute("user");
+        if (user != null && user.getRole()==3) {
+            List<BusModel> BusList = busService.showBusList();
+            model.addAttribute("user", user);
+            model.addAttribute("BusList",BusList);
+            return "dashboardBus_page";
+        } else {
+            return "redirect:/login";
+        }
+    }
+
 
     @RequestMapping(value="/logout", method = RequestMethod.GET)
     public String logoutPage() {
@@ -97,7 +111,9 @@ public class MainController {
         if (user != null && user.getRole()==3) {
             model.addAttribute("user", user);
             List<UsersModel> DriversList = usersService.listDrivers();
+            List<BusModel> BusList= busService.showBusDispoList();
             model.addAttribute("DriversList", DriversList);
+            model.addAttribute("BusList", BusList);
             return "TravelDashboard_page";
         } else {
             return "redirect:/login";
