@@ -36,7 +36,7 @@ public class BusController {
        busService.AddVoyage(busId , destination,driverId , startTime);
        busService.updateBusPositions();
        model.addAttribute("user",user);
-     return("redirect:/main");
+       return("redirect:/main");
    }
    @PostMapping("/dashboard/StartBusNow")
     public String StartBusNow(Model model , HttpSession session , @RequestParam("id") int id )

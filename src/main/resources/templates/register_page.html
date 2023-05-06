@@ -12,6 +12,8 @@
     <h1> CleverVision </h1>
 </div>
 <div class="form">
+    <div class="alert alert-danger" role="alert" th:if="${param.error != null}">
+        Invalid Email or Password  </div>
     <form method="post" action="/register" th:object="${registerRequest}">
         <h2>Sign In</h2>
         <div class="input-box">

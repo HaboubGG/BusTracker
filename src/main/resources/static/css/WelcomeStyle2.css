@@ -123,6 +123,68 @@ nav ul li a {
 /*Navigation Bar*/
 
 
+/*animated text*/
+.typing.animate {
+    width: 70px;
+    border-right: 0.1em solid black;
+    font-family: monospace;
+    font-size: 1.5em;
+    animation: type 2.5s steps(20), writer 1s infinite alternate, delete 0.5s steps(5) 2.5s, type2 1s steps(4) 3s forwards, type3 3s steps(22, end) 6s forwards;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.typing.animate::before {
+    content: "Hello ,its CleverVision";
+    animation: type2 1s steps(4) 3s forwards, type3 3s steps(22, end) 6s forwards;
+}
+
+@keyframes type {
+    from {
+        width: 0;
+    }
+    to {
+        width: 21ch;
+    }
+}
+
+@keyframes type2 {
+    from {
+        width: 16ch;
+        content: "Hello ,its CleverVision  "
+    }
+    to {
+        width: 30ch;
+        content: "Hello ,its CleverVision"
+    }
+}
+
+@keyframes type3 {
+    from {
+        width: 30ch;
+        content: "Hello its CleverVision ! "
+    }
+    to {
+        width: 75ch;
+        content: " Hello its CleverVision ! "
+    }
+}
+
+@keyframes writer {
+    50% {
+        border-color: transparent;
+    }
+}
+
+@keyframes delete {
+    from {
+        width: 21ch;
+    }
+    to {
+        width: 16ch;
+    }
+}
 
 /*Hero Image*/
 header {
@@ -188,7 +250,6 @@ header button:hover, button:active {
         text-align: center;
     }
 }
-
 @media screen and (max-width: 601px) {
     #photography {
         font-size: 45px;
@@ -274,6 +335,7 @@ header button:hover, button:active {
     background: red;
     margin-bottom: 10px;
 }
+
 .site-footer
 {
     background-color:#26272b;

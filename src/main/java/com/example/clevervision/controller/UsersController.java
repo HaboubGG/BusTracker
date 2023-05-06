@@ -41,17 +41,18 @@ public String getProgressPage(Model model)
 
     System.out.println("register request: "+usersModel);
     UsersModel registeredUser = usersService.registerUser(usersModel.getLogin(),usersModel.getPassword(),usersModel.getEmail());
-    return registeredUser == null ? "error_page" : "redirect:/login" ;
+    return registeredUser == null ? "redirect:/register?error" : "redirect:/login" ;
     }
 
     @PostMapping("/login")
     public String login(@ModelAttribute UsersModel usersModel , Model model , HttpSession session)
     {
-        System.out.println("login request: "+usersModel);
+
         UsersModel authenticated = usersService.authenticate(usersModel.getEmail(),usersModel.getPassword());
         if (authenticated!=null)
         {
 //            model.addAttribute("userEmail",usersModel.getEmail());
+            //session
            session.setAttribute("user", authenticated);
            System.out.println(authenticated);
             return "redirect:/main";

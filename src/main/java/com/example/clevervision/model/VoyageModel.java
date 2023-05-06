@@ -21,8 +21,12 @@ public class VoyageModel {
 
     Integer destination;
 
-    Integer busId;
-    Integer driverId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bus")
+    private BusModel bus;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "driver")
+    UsersModel driver;
 
     @Override
     public String toString() {
@@ -33,23 +37,19 @@ public class VoyageModel {
                 ", enRoute=" + enRoute +
                 ", busPosition=" + busPosition +
                 ", destination=" + destination +
-                ", busId=" + busId +
-                ", driverId=" + driverId +
+                ", busId=" + bus.getMat() +
+                ", driverId=" + driver +
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        VoyageModel that = (VoyageModel) o;
-        return Objects.equals(id, that.id) && Objects.equals(HeureDepart, that.HeureDepart) && Objects.equals(HeureArrive, that.HeureArrive) && Objects.equals(enRoute, that.enRoute) && Objects.equals(busPosition, that.busPosition) && Objects.equals(destination, that.destination) && Objects.equals(busId, that.busId) && Objects.equals(driverId, that.driverId);
+    public BusModel getBus() {
+        return bus;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, HeureDepart, HeureArrive, enRoute, busPosition, destination, busId, driverId);
+    public void setBus(BusModel bus) {
+        this.bus = bus;
     }
+
 
     public Integer getDestination() {
         return destination;
@@ -59,20 +59,13 @@ public class VoyageModel {
         this.destination = destination;
     }
 
-    public Integer getBusId() {
-        return busId;
+
+    public UsersModel getDriver() {
+        return driver;
     }
 
-    public void setBusId(Integer busId) {
-        this.busId = busId;
-    }
-
-    public Integer getDriverId() {
-        return driverId;
-    }
-
-    public void setDriverId(Integer driverId) {
-        this.driverId = driverId;
+    public void setDriver(UsersModel driverId) {
+        this.driver = driverId;
     }
 
     public Integer getId() {

@@ -25,15 +25,18 @@ public class UsersService {
 
     public UsersModel registerUser(String login , String password , String email)
     {
+        //Verification Email unique
         if(usersRepository.findFirstByEmail(email)!=null)
         {
             System.out.println("Email is already used by another account");
             return null;
         }
+        //Verification des champs
         else if(login !=null && password !=null){
             UsersModel newUser = new UsersModel();
             newUser.setLogin(login);
 //            newUser.setPassword(password);
+            //Spring security pour le cryptage de mot de passe
             String encodedPassword = passwordEncoder.encode(password);
             newUser.setPassword(encodedPassword);
             newUser.setEmail(email);
@@ -47,9 +50,11 @@ public class UsersService {
     }
     public UsersModel authenticate(String email , String password)
     {
+        // 1 - verification de l"email
         UsersModel user = usersRepository.findFirstByEmail(email);
         if (user != null) {
             String encodedPassword = user.getPassword();
+            //spring security
             if( passwordEncoder.matches(password, encodedPassword))
             {
                 return user;

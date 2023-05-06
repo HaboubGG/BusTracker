@@ -65,10 +65,7 @@
       <main class="content">
 
         <h1> Travel Dashboard</h1>
-
-        <p>Please don't be an idiot when using ur dashboard ! </p>
-
-        <form method="post" action="/StartBus" th:object="${StartBusRequest}" onsubmit="return confirm('are you sure you want to start this bus ? ')">
+        <form method="post" action="/StartBus" th:object="${StartBusRequest}" onsubmit="return confirm('Are you sure you want to plan Travel ?')">
           <br>
           <h2 id="iconBus">   <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-bus-front" viewBox="0 0 16 16">
             <path d="M5 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm8 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm-6-1a1 1 0 1 0 0 2h2a1 1 0 1 0 0-2H7Zm1-6c-1.876 0-3.426.109-4.552.226A.5.5 0 0 0 3 4.723v3.554a.5.5 0 0 0 .448.497C4.574 8.891 6.124 9 8 9c1.876 0 3.426-.109 4.552-.226A.5.5 0 0 0 13 8.277V4.723a.5.5 0 0 0-.448-.497A44.303 44.303 0 0 0 8 4Zm0-1c-1.837 0-3.353.107-4.448.22a.5.5 0 1 1-.104-.994A44.304 44.304 0 0 1 8 2c1.876 0 3.426.109 4.552.226a.5.5 0 1 1-.104.994A43.306 43.306 0 0 0 8 3Z"/>
@@ -87,10 +84,10 @@
           <div class="form-group">
             <label class="col-lg-3 control-label"><Strong>Select Driver ID</Strong></label>
             <div class="col-lg-5">
-              <select class="form-select" aria-label="Default select example" name="driverId">
+              <select class="form-select" aria-label="Default select example" name="driverId" required>
                 <option th:each="driver:${DriversList}"
                             th:value="${driver.getId()}"
-                            th:text="${driver.getId()}" >
+                        th:text="'Driver ID :  ' + ${driver.getId()} + ' Name:  ' + ${driver.getLogin()}">
                 </option>
               </select>
             </div>
@@ -100,18 +97,18 @@
             <label class="col-lg-3 control-label"><Strong>Choose start time</Strong></label>
             <div class="col-lg-5">
               <div class="cs-form">
-                <input type="time" class="form-control" value="10:05 AM" name="startTime" />
+                <input type="time" class="form-control" value="10:05 AM" name="startTime" required/>
               </div>
             </div>
           </div>
 
           <div class="form-group">
-            <label class="col-lg-3 control-label"><Strong>Select Bus ID</Strong></label>
+            <label class="col-lg-3 control-label"><Strong>Select Bus </Strong></label>
             <div class="col-lg-5">
-              <select class="form-select" aria-label="Default select example" name="busId">
+              <select class="form-select" aria-label="Default select example" name="busId" required>
                 <option th:each="bus:${BusList}"
                         th:value="${bus.getMat()}"
-                        th:text="${bus.getMat()}" selected></option>
+                        th:text="'Name: ' + ${bus.getMat()} + ' Brand :  ' + ${bus.getMarque()}" selected></option>
               </select>
             </div>
           </div>

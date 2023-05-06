@@ -34,8 +34,13 @@ public class MainController {
         if (user != null) {
             model.addAttribute("user", user);
             VoyageModel voyageModel = busService.VoyageData();
+            List<VoyageModel> VoyageList = busService.listVoyageMain();
             if(voyageModel!=null) {
                 model.addAttribute("VoyageData", voyageModel.getBusPosition());
+            }
+            if(VoyageList!=null)
+            {
+                model.addAttribute("VoyageList", VoyageList);
             }
             return "main_page";
         } else {

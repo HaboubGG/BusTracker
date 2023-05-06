@@ -125,7 +125,7 @@ nav ul li a {
 
 /*animated text*/
 .typing.animate {
-    width: 5ch;
+    width: 15ch;
     border-right: 0.1em solid black;
     font-family: monospace;
     font-size: 0.5em;

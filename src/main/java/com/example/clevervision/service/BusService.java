@@ -5,11 +5,10 @@ import com.example.clevervision.model.UsersModel;
 import com.example.clevervision.model.VoyageModel;
 import com.example.clevervision.repository.BusRepository;
 import com.example.clevervision.repository.GarageRepository;
+import com.example.clevervision.repository.UsersRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -17,10 +16,12 @@ import java.util.List;
 public class BusService {
     private final BusRepository busRepository;
     private final GarageRepository garageRepository;
+    private  final UsersRepository usersRepository;
 
-    public BusService(BusRepository busRepository , GarageRepository garageRepository) {
+    public BusService(BusRepository busRepository , GarageRepository garageRepository, UsersRepository usersRepository) {
         this.busRepository = busRepository;
         this.garageRepository=garageRepository;
+        this.usersRepository = usersRepository;
     }
     public VoyageModel VoyageData()
     {VoyageModel voyageModel = busRepository.findFirstByEnRoute(1);
@@ -35,6 +36,11 @@ public class BusService {
     public List<VoyageModel> listVoyage(int id)
     {
         List<VoyageModel> VoyageList = busRepository.findAllByDriverId(id);
+        return VoyageList;
+    }
+    public List<VoyageModel> listVoyageMain()
+    {
+        List<VoyageModel> VoyageList = busRepository.findAll();
         return VoyageList;
     }
     public Boolean AddBus(int mat , String marque)
@@ -77,9 +83,11 @@ public class BusService {
         else{
             newVoy.setBusPosition(101);
         }
-        newVoy.setBusId(busId);
+        BusModel RelatedBus = garageRepository.findFirstByMat(busId);
+        UsersModel RelatedDriver = usersRepository.findFirstById(driverId);
+        newVoy.setBus(RelatedBus);
         newVoy.setDestination(destination);
-        newVoy.setDriverId(driverId);
+        newVoy.setDriver(RelatedDriver);
         busRepository.save(newVoy);
     }
     public void StartBusNow(int id)
