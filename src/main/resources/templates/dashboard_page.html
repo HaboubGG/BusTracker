@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/DashboardStyle.css">
+    <link rel="stylesheet" href="css/TravelDashboard.css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -15,90 +15,136 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
     <script src="/webjars/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+    <script src="scripts/TravelScript.js"></script>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
 </head>
-<body>
-<!--Navigation Bar-->
-<div class="logo">
-    <h1> CleverVision </h1>
-</div>
-<span id="close"> <img style="width: 25px;" src="http://www.pvhc.net/img5/onbbqnqzkjrtvirmiqnp.png" alt="CLOSE"> </img> </span>
-<span id="menu"> <img style="width: 25px;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR11WXR-a18XfNZknL7S4lu0lLyC4aWZPY4sLd4wNHUNv9So2gd"
-                      alt="MENU"> </span>
-<nav>
-    <ul>
-        <li> <a href="/main"> <i class="bi bi-house-door-fill"></i> HOME </a> </li>
-        <li th:if="${user.getRole()==3}"> <a href="/dashboard"><i class="bi bi-shield-fill"></i> DASHBOARD</a> </li>
-        <li th:if="${user.getRole()==2}"> <a href="/driverDashboard"><i class="bi bi-shield-fill"></i> DRIVER DASHBOARD</a> </li>
-        <li><i class="bi bi-person-fill"></i> <a href="/editProfile" th:text="${user.getLogin()}"></a> </li>
-        <li> <a href="/logout"><i class="bi bi-box-arrow-right"></i> LOGOUT</a></li>
-    </ul>
-</nav>
-<header>
-<div class="app-container">
-    <nav class="nav">
-        <ul class="nav__list">
-            <li class="nav__list-item">
-                <a href="#" class="nav__item-link">Dashboard</a>
-            </li>
-            <li class="nav__list-item nav__list-item--active">
-                <a href="/dashboard" class="nav__item-link">Users </a>
-            </li>
-            <li class="nav__list-item">
-                <a href="/travelDashboard" class="nav__item-link">Travel </a>
-            </li>
-            <li class="nav__list-item">
-                <a href="/dashboardBus" class="nav__item-link">Bus</a>
-            </li>
-            <li class="nav__list-item">
-                <a href="/logout" class="nav__item-link">Logout</a>
-            </li>
-        </ul>
-    </nav>
-    <div class="app-view">
-        <main class="content">
-            <h1>Users</h1>
-            <h2>Subheading</h2>
-            <p>Please be careful editing profile roles</p>
-            <table>
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Login</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="user:${UsersList}">
-                    <td th:text="${user.getId()}">
-                        <a href="#"></a>
-                    </td>
-                    <td th:text="${user.getLogin()}"></td>
-                    <td th:text="${user.getEmail()}"></td>
-                    <td th:if="${user.getRole()==1}"> User</td>
-                    <td th:if="${user.getRole()==2}"> Driver</td>
-                    <td th:if="${user.getRole()==3}"> Moderator</td>
+<script>
+    function openModal(id) {
+        itemId = parseInt(id);
+        document.getElementById("itemIdInput").value = itemId;
+        // Code to show the modal goes here
+    }</script>
+<body style="background-color: #313348;">
+<aside class="sidebar position-fixed top-0 left-0 overflow-auto h-100 float-left" id="show-side-navigation1">
+    <i class="uil-bars close-aside d-md-none d-lg-none" data-close="show-side-navigation1"></i>
+    <div class="sidebar-header d-flex justify-content-center align-items-center px-3 py-4">
+        <img
+                class="rounded-pill img-fluid"
+                width="65"
+                src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907008/medium/1501685726/enhance"
+                alt="">
 
-                    <td>
-                        <form method="post" th:action="@{dashboard/editRole}" onsubmit="return confirm('are you sure you want to edit this user ? ')">
-                            <input type="hidden" name="id" th:value="${user.getId()}">
-                            <button type="submit" class="btn">Edit Role</button>
-                            <div class="col-3">
-                            <select id="role" name="role"  class="form-select form-select-sm" >
-                                <option  value="User"> User</option>
-                                <option value="Driver">Driver</option>
-                                <option value="Moderator">Moderator</option>
-                            </select>
-                            </div>
-                        </form>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </main>
+        <div class="ms-2">
+            <h5 class="fs-6 mb-0">
+                <a class="text-decoration-none" th:text="${user.getLogin()}"></a>
+            </h5>
+        </div>
     </div>
-</div>
-</header>
+
+    <div class="search position-relative text-center px-4 py-3 mt-2">
+        <input type="text" class="form-control w-100 border-0 bg-transparent" placeholder="Search here">
+        <i class="fa fa-search position-absolute d-block fs-6"></i>
+    </div>
+    <ul class="categories list-unstyled">
+        <li class="has-dropdown">
+            <i class="uil-estate fa-fw"></i><a href="/dashboard"> Dashboard</a>
+        </li>
+        <li class="has-dropdown">
+            <i class="uil-estate fa-fw"></i><a href="/travelDashboard"> <i class="bi bi-bookmark-fill"></i> Travel </a>
+        </li>
+        <li class="has-dropdown">
+            <i class="uil-estate fa-fw"></i><a href="/dashboardBus"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bus-front-fill" viewBox="0 0 16 16">
+            <path d="M16 7a1 1 0 0 1-1 1v3.5c0 .818-.393 1.544-1 2v2a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5V14H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2a2.496 2.496 0 0 1-1-2V8a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1V2.64C1 1.452 1.845.408 3.064.268A43.608 43.608 0 0 1 8 0c2.1 0 3.792.136 4.936.268C14.155.408 15 1.452 15 2.64V4a1 1 0 0 1 1 1v2ZM3.552 3.22A43.306 43.306 0 0 1 8 3c1.837 0 3.353.107 4.448.22a.5.5 0 0 0 .104-.994A44.304 44.304 0 0 0 8 2c-1.876 0-3.426.109-4.552.226a.5.5 0 1 0 .104.994ZM8 4c-1.876 0-3.426.109-4.552.226A.5.5 0 0 0 3 4.723v3.554a.5.5 0 0 0 .448.497C4.574 8.891 6.124 9 8 9c1.876 0 3.426-.109 4.552-.226A.5.5 0 0 0 13 8.277V4.723a.5.5 0 0 0-.448-.497A44.304 44.304 0 0 0 8 4Zm-3 7a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm8 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm-7 0a1 1 0 0 0 1 1h2a1 1 0 1 0 0-2H7a1 1 0 0 0-1 1Z"/>
+        </svg> Buses </a>
+        </li>
+        <li class="has-dropdown">
+            <i class="uil-estate fa-fw"></i><a href=""> <i class="bi bi-people-fill"></i> Users</a>
+        </li>
+    </ul></aside>
+
+<section id="wrapper">
+    <nav class="navbar navbar-expand-md">
+        <div class="container-fluid mx-2">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">CleverVision <span class="main-color">Admin</span></a>
+            </div>
+            <div class="collapse navbar-collapse" id="toggle-navbar">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"> <a class="nav-link" href="/main"> <i class="bi bi-house-door-fill"></i> HOME </a> </li>
+                    <li class="nav-item" th:if="${user.getRole()==3}"> <a class="nav-link" href="/dashboard"><i class="bi bi-shield-fill"></i> DASHBOARD</a> </li>
+                    <li  class="nav-item" th:if="${user.getRole()==2}"> <a class="nav-link" href="/driverDashboard"><i class="bi bi-shield-fill"></i> DRIVER DASHBOARD</a> </li>
+                    <li class="nav-item"> <a class="nav-link" href="/editProfile" th:text="${user.getLogin()}"><i class="bi bi-person-fill"></i></a> </li>
+                    <li class="nav-item"> <a  class="nav-link"href="/logout"><i class="bi bi-box-arrow-right"></i> LOGOUT</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+
+    <div class="p-4">
+        <div class="">
+            <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h2> <i class="bi bi-people-fill "></i> Manage <b>Users</b></h2>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Login</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Edit Role</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="user : ${UsersList}">
+                        <td th:text="${user.getId()}">
+                            <a href="#editEmployeeModal" class="edit" data-toggle="modal" th:data-user-id="${user.getId()}"><i class="bi bi-pen-fill"></i></a>
+                        </td>
+                        <td th:text="${user.getLogin()}"></td>
+                        <td th:text="${user.getEmail()}"></td>
+                        <td>
+                            <span th:if="${user.getRole()==1}">User</span>
+                            <span th:if="${user.getRole()==2}">Driver</span>
+                            <span th:if="${user.getRole()==3}">Moderator</span>
+                        </td>
+                        <td>
+                            <form method="post" th:action="@{/dashboard/editRole}" onsubmit="return confirm('Are you sure you want to edit this user?')">
+                                <input type="hidden" th:value="${user.getId()}" name="id">
+                                <select id="role" name="role" class="form-select form-select-sm">
+                                    <option value="User">User</option>
+                                    <option value="Driver">Driver</option>
+                                    <option value="Moderator">Moderator</option>
+                                </select>
+                            </form>
+                        </td>
+                        <td>                                <input type="submit" class="btn btn-success" value="Edit">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div class="clearfix">
+                    <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+                    <ul class="pagination">
+                        <li class="page-item disabled"><a href="#">Previous</a></li>
+                        <li class="page-item"><a href="#" class="page-link">1</a></li>
+                        <li class="page-item"><a href="#" class="page-link">2</a></li>
+                        <li class="page-item active"><a href="#" class="page-link">3</a></li>
+                        <li class="page-item"><a href="#" class="page-link">4</a></li>
+                        <li class="page-item"><a href="#" class="page-link">5</a></li>
+                        <li class="page-item"><a href="#" class="page-link">Next</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
 </body>
 </html>

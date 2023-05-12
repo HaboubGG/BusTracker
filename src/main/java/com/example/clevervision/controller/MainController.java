@@ -125,8 +125,11 @@ public class MainController {
             model.addAttribute("user", user);
             List<UsersModel> DriversList = usersService.listDrivers();
             List<BusModel> BusList= busService.showBusDispoList();
+            List<VoyageModel> VoyageList = busService.listVoyageMain();
             model.addAttribute("DriversList", DriversList);
             model.addAttribute("BusList", BusList);
+            model.addAttribute("VoyageList", VoyageList);
+
             return "TravelDashboard_page";
         } else {
             return "redirect:/login";
@@ -179,16 +182,6 @@ public class MainController {
         } else {
             return "redirect:/login";
         }
-    }
-    @PostMapping("/dashboard/delete")
-public String deleteUser(@RequestParam("id") int id , Model model, HttpSession session)
-    {
-        UsersModel user = (UsersModel) session.getAttribute("user");
-        List<UsersModel> UsersList = usersService.listUsers();
-        model.addAttribute("UsersList", UsersList);
-        model.addAttribute("user",user);
-        usersService.deleteUser(id);
-        return "redirect:/dashboard";
     }
     @PostMapping("/dashboard/editRole")
     public String editRole(@RequestParam("id") int id,@RequestParam("role") String role , Model model, HttpSession session)
