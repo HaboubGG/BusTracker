@@ -271,15 +271,18 @@ table tbody tr:hover {
 }
 .nav__list-item {
     position: relative;
+    text-decoration: none;
+
 }
 .nav__list-item--active {
     padding: 10px 0 10px 15px;
 }
 .nav__list-item--active .nav__item-link {
     padding: 15px 15px;
-    color: #1a1a1a;
+    color: #ffffff;
     font-weight: 700;
     background-color: #fffbfc;
+    text-decoration: none;
 }
 .nav__item-link {
     display: block;

@@ -17,11 +17,7 @@ public class UsersController {
     public UsersController(UsersService usersService) {
         this.usersService = usersService;
     }
-@GetMapping("/progress")
-public String getProgressPage(Model model)
-{
-    return "progress_page";
-}
+
     @GetMapping("/register")
     public String getRegisterPage(Model model)
     {

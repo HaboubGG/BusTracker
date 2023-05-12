@@ -36,7 +36,7 @@
     <div class="card" style="width: 250rem;" >
         <canvas id="canvas" width="1857px" height="1080px"></canvas>
     </div>
-    <table class="table table-striped" th:if="${VoyageList!=null}">
+    <table class="table table-dark" style="margin-left:15px;margin-right: 15px">
         <thead class="thead-dark">
         <tr>
             <th scope="col">Destination</th>
@@ -47,13 +47,15 @@
         </thead>
         <tbody>
         <tr style="height:50%" th:each="voy:${VoyageList}" th:classappend="${voy.getEnRoute() == 1 } ? 'table-success' : 'table-active'">
-            <td scope="row"  th:if="${voy.getDestination() == 1}"> Bizerte - IsetB </td>
-            <td th:if="${voy.getDestination() == 2}"> IsetB - Bizerte </td>
+            <td th:text="${voy.getDestination() == 1 } ? 'Bizerte - IsetB ' : 'IsetB - Bizerte'">
             <td th:text="${voy.getHeureDepart()}"></td>
             <td th:text="${voy.getHeureArrive()}"></td>
-            <td th:if="${voy.getEnRoute() == 1}"> On the way </td>
-            <td th:if="${voy.getEnRoute() == 0}"> At Station 1 </td>
+            <td th:text="${voy.getEnRoute() == 1 } ? 'On the way ' : 'At Station 1'">
+            <td th:if="${VoyageList.isEmpty()}">
+                <div class="alert alert-dark"> 0 Travels planned for now. Please refresh page to get updated informations</div>
+            </td>
         </tr>
+
         </tbody>
     </table>
 </div>
@@ -235,7 +237,6 @@
             url: "/main/bus",
             type: "GET",
             success: function(response) {
-
                 // Convert the integer response to a string
                 var responseString = response.toString();
                 if(responseString!=null) {

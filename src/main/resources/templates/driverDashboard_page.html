@@ -41,14 +41,19 @@
         <nav class="nav">
             <ul class="nav__list">
                 <li class="nav__list-item">
-                    <a href="#" class="nav__item-link"><Strong> Dashboard </Strong></a>
+                    <a class="nav__item-link"><Strong> Dashboard </Strong></a>
                 </li>
                 <li class="nav__list-item nav__list-item--active">
-                    <a href="#" class="nav__item-link">Launch Bus</a>
+                    <a href="/driverDashbaord" class="nav__item-link">Launch Bus</a>
                 </li>
             </ul>
         </nav>
         <div class="app-view">
+            <div class="alert-info" th:if="${VoyageList == null}">
+                <Strong>
+                    0 Travels associated with you
+                </Strong>
+            </div>
             <main class="content">
 
                 <h1>  Driver Dashboard</h1>
@@ -71,8 +76,7 @@
                         <td th:text="${voy.getBus().getMarque()}"> </td>
                         <td>
                             <span th:if="${#temporals.createNow().getHour() == voy.getHeureDepart().getHour()
-                            && #temporals.createNow().getMinute() &gt; voy.getHeureDepart().getMinute()
-                            }">
+                            && #temporals.createNow().getMinute() &gt; voy.getHeureDepart().getMinute()}">
                             <form method="post" th:action="@{dashboard/StartBusNow}" onsubmit="return confirm('are you sure you want to delete this user ? ')">
                                 <input type="hidden" name="id" th:value="${voy.getId()}">
                                 <button type="submit" class="submit-button">Start Bus Now</button>

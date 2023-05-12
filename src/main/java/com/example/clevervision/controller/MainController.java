@@ -86,8 +86,16 @@ public class MainController {
             return "redirect:/login";
         }
     }
-
-
+    @PostMapping("/dashboardBus/deleteBus")
+    public String DeleteBus(Model model , HttpSession session ,
+                            @RequestParam("busId") int mat
+    )
+    {
+        UsersModel user = (UsersModel) session.getAttribute("user");
+        busService.DeleteBus(mat);
+        model.addAttribute("user",user);
+        return "redirect:/dashboardBus?successDelete";
+    }
     @RequestMapping(value="/logout", method = RequestMethod.GET)
     public String logoutPage() {
        HttpSession session = request.getSession(false);

@@ -57,6 +57,10 @@ public class BusService {
             return false;
         }
     }
+    public void DeleteBus(int id )
+    {
+        garageRepository.deleteById(id);
+    }
 
     public List<BusModel> showBusList()
     {
@@ -94,6 +98,7 @@ public class BusService {
     {
         VoyageModel bus = busRepository.findFirstById(id);
         bus.setEnRoute(1);
+        bus.getBus().setDispo(false);
         busRepository.save(bus);
     }
 
@@ -113,6 +118,7 @@ public class BusService {
                 }
                 else{
                     bus.setEnRoute(0);
+                    bus.getBus().setDispo(true);
                     busRepository.deleteById(bus.getId());
                 }
             }
@@ -126,6 +132,7 @@ public class BusService {
                 }
                 else{
                     bus.setEnRoute(0);
+                    bus.getBus().setDispo(true);
                     busRepository.deleteById(bus.getId());
                 }
             }

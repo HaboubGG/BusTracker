@@ -10,5 +10,6 @@ public interface BusRepository  extends JpaRepository<VoyageModel,Integer> {
 VoyageModel findFirstByEnRoute(int x);
     VoyageModel findFirstById(int x);
     List<VoyageModel> findAllByDriverId(int id);
+    void deleteById(int id);
 
 }

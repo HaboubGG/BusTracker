@@ -51,13 +51,7 @@
                 <a href="/dashboardBus" class="nav__item-link">Bus</a>
             </li>
             <li class="nav__list-item">
-                <a href="#" class="nav__item-link">Contracts</a>
-            </li>
-            <li class="nav__list-item">
-                <a href="#" class="nav__item-link">Statuses</a>
-            </li>
-            <li class="nav__list-item">
-                <a href="#" class="nav__item-link">Logout</a>
+                <a href="/logout" class="nav__item-link">Logout</a>
             </li>
         </ul>
     </nav>
@@ -90,16 +84,13 @@
                         <form method="post" th:action="@{dashboard/editRole}" onsubmit="return confirm('are you sure you want to edit this user ? ')">
                             <input type="hidden" name="id" th:value="${user.getId()}">
                             <button type="submit" class="btn">Edit Role</button>
-                            <select id="role" name="role"  class="form-select form-select-sm">
-                                <option value="User"> User</option>
+                            <div class="col-3">
+                            <select id="role" name="role"  class="form-select form-select-sm" >
+                                <option  value="User"> User</option>
                                 <option value="Driver">Driver</option>
                                 <option value="Moderator">Moderator</option>
                             </select>
-                        </form>
-
-                        <form method="post" th:action="@{dashboard/delete}" onsubmit="return confirm('are you sure you want to delete this user ? ')">
-                            <input type="hidden" name="id" th:value="${user.getId()}">
-                            <button type="submit" class="btn btn-delete">Delete</button>
+                            </div>
                         </form>
                     </td>
                 </tr>
