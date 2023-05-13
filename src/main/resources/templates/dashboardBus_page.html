@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/DashboardBus.css">
+    <link rel="stylesheet" href="css/DashboardBus.css?version=51">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -17,118 +17,152 @@
     <script src="/webjars/bootstrap/5.1.3/js/bootstrap.min.js"></script>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
 </head>
-<body>
-<!--Navigation Bar-->
-<div class="logo">
-    <h1> CleverVision </h1>
-</div>
-<span id="close"> <img style="width: 25px;" src="http://www.pvhc.net/img5/onbbqnqzkjrtvirmiqnp.png" alt="CLOSE"> </img> </span>
-<span id="menu"> <img style="width: 25px;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR11WXR-a18XfNZknL7S4lu0lLyC4aWZPY4sLd4wNHUNv9So2gd"
-                      alt="MENU"> </span>
-<nav>
-    <ul>
-        <li> <a href="/main"> <i class="bi bi-house-door-fill"></i> HOME </a> </li>
-        <li th:if="${user.getRole()==3}"> <a href="/dashboard"><i class="bi bi-shield-fill"></i> DASHBOARD</a> </li>
-        <li th:if="${user.getRole()==2}"> <a href="/driverDashboard"><i class="bi bi-shield-fill"></i> DRIVER DASHBOARD</a> </li>
-        <li><i class="bi bi-person-fill"></i> <a href="/editProfile" th:text="${user.getLogin()}"></a> </li>
-        <li> <a href="/logout"><i class="bi bi-box-arrow-right"></i> LOGOUT</a></li>
-    </ul>
-</nav>
-<header>
-    <div class="app-container">
-        <nav class="nav">
-            <ul class="nav__list">
-                <li class="nav__list-item">
-                    <a href="#" class="nav__item-link">Dashboard</a>
-                </li>
-                <li class="nav__list-item nav__list-item--active">
-                    <a href="/dashboard" class="nav__item-link">Users </a>
-                </li>
-                <li class="nav__list-item">
-                    <a href="/travelDashboard" class="nav__item-link">Travel </a>
-                </li>
-                <li class="nav__list-item">
-                    <a href="/dashboardBus" class="nav__item-link">Bus</a>
-                </li>
-                <li class="nav__list-item">
-                    <a href="/logout" class="nav__item-link">Logout</a>
-                </li>
-            </ul>
-        </nav>
-        <div class="app-view">
-            <main class="content">
+<body style="background-color: #313348;">
+<aside class="sidebar position-fixed top-0 left-0 overflow-auto h-100 float-left" id="show-side-navigation1">
+    <i class="uil-bars close-aside d-md-none d-lg-none" data-close="show-side-navigation1"></i>
+    <div class="sidebar-header d-flex justify-content-center align-items-center px-3 py-4">
+        <img
+                class="rounded-pill img-fluid"
+                width="65"
+                src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907008/medium/1501685726/enhance"
+                alt="">
 
-                <h1> Buses </h1>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-8">
-                            <div class="alert alert-danger" role="alert" th:if="${param.error != null}">
-                                Matricule already exist  </div>
-                            <div class="alert alert-success" role="alert" th:if="${param.success != null}">
-                                Bus added successfully  </div>
-                            <form method="post" id="form1" action="/AddBus" th:object="${AddBusRequest}" onsubmit="return confirm('are you sure you want to start this bus ? ')">
-                                <br>
-                                <h2 id="iconBus">   <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-bus-front" viewBox="0 0 16 16">
-                                    <path d="M5 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm8 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm-6-1a1 1 0 1 0 0 2h2a1 1 0 1 0 0-2H7Zm1-6c-1.876 0-3.426.109-4.552.226A.5.5 0 0 0 3 4.723v3.554a.5.5 0 0 0 .448.497C4.574 8.891 6.124 9 8 9c1.876 0 3.426-.109 4.552-.226A.5.5 0 0 0 13 8.277V4.723a.5.5 0 0 0-.448-.497A44.303 44.303 0 0 0 8 4Zm0-1c-1.837 0-3.353.107-4.448.22a.5.5 0 1 1-.104-.994A44.304 44.304 0 0 1 8 2c1.876 0 3.426.109 4.552.226a.5.5 0 1 1-.104.994A43.306 43.306 0 0 0 8 3Z"/>
-                                    <path d="M15 8a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1V2.64c0-1.188-.845-2.232-2.064-2.372A43.61 43.61 0 0 0 8 0C5.9 0 4.208.136 3.064.268 1.845.408 1 1.452 1 2.64V4a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1v3.5c0 .818.393 1.544 1 2v2a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5V14h6v1.5a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5v-2c.607-.456 1-1.182 1-2V8ZM8 1c2.056 0 3.71.134 4.822.261.676.078 1.178.66 1.178 1.379v8.86a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 11.5V2.64c0-.72.502-1.301 1.178-1.379A42.611 42.611 0 0 1 8 1Z"/>
-                                </svg>  Add Bus </h2>
-                                <br>
-                                <div class="form-group">
-                                    <label class="col-lg-3 control-label"><Strong>Choose matricule</Strong> </label>
-                                    <div class="col-lg-5">
-                                        <input type="number" name="mat" class="form-control" required>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-lg-3 control-label"><Strong>Choose brand</Strong> </label>
-                                    <div class="col-lg-5">
-                                        <input type="text" name="marque" class="form-control" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <input type="submit"  value="Add Bus" class="submit-button">
-                                    <span></span>
-                                    <input type="reset" class="reset-button" value="Cancel">
-                                </div>
-                                <!--                  <button type="submit" onclick="StartBus();">Start bus !</button>-->
-                            </form>
-                        </div>
-                        <div class="col-4">
-                            <table>
-                                <thead>
-                                <tr>
-                                    <th>Matricule</th>
-                                    <th>Marque</th>
-                                    <th>Disponibilité</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <div class="alert alert-success" role="alert" th:if="${param.successDelete != null}">
-                                    Bus deleted successfully  </div>
-                                <tr th:each="bus:${BusList}">
-                                    <td th:text="${bus.getMat()}"></td>
-                                    <td th:text="${bus.getMarque()}"></td>
-                                    <td th:text="${bus.getDispo()}"></td>
-                                    <td th:if="${bus.getDispo() ==true}">
-                                        <form method="post" th:action="@{dashboardBus/deleteBus}" onsubmit="return confirm('are you sure you want to delete this bus ? ')">
-                                            <input type="hidden" name="busId" th:value="${bus.getMat()}">
-                                            <button type="submit" class="btn btn-delete">Delete</button>
-                                        </form>
-                                    </td>
-                                    <td th:if="${bus.getDispo() ==false}">
-                                        <div class="alert-danger">
-                                            You cant delete this bus now
-                                        </div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </main>
+        <div class="ms-2">
+            <h5 class="fs-6 mb-0">
+                <a class="text-decoration-none" th:text="${user.getLogin()}"></a>
+            </h5>
         </div>
     </div>
-</header>
+
+    <div class="search position-relative text-center px-4 py-3 mt-2">
+        <input type="text" class="form-control w-100 border-0 bg-transparent" placeholder="Search here">
+        <i class="fa fa-search position-absolute d-block fs-6"></i>
+    </div>
+    <ul class="categories list-unstyled">
+        <li class="has-dropdown">
+            <i class="uil-estate fa-fw"></i><a href="/dashboard"> Dashboard</a>
+        </li>
+        <li class="has-dropdown">
+            <i class="uil-estate fa-fw"></i><a href="/travelDashboard"> <i class="bi bi-bookmark-fill"></i> Travel </a>
+        </li>
+        <li class="has-dropdown">
+            <i class="uil-estate fa-fw"></i><a href="/dashboardBus"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bus-front-fill" viewBox="0 0 16 16">
+            <path d="M16 7a1 1 0 0 1-1 1v3.5c0 .818-.393 1.544-1 2v2a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5V14H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2a2.496 2.496 0 0 1-1-2V8a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1V2.64C1 1.452 1.845.408 3.064.268A43.608 43.608 0 0 1 8 0c2.1 0 3.792.136 4.936.268C14.155.408 15 1.452 15 2.64V4a1 1 0 0 1 1 1v2ZM3.552 3.22A43.306 43.306 0 0 1 8 3c1.837 0 3.353.107 4.448.22a.5.5 0 0 0 .104-.994A44.304 44.304 0 0 0 8 2c-1.876 0-3.426.109-4.552.226a.5.5 0 1 0 .104.994ZM8 4c-1.876 0-3.426.109-4.552.226A.5.5 0 0 0 3 4.723v3.554a.5.5 0 0 0 .448.497C4.574 8.891 6.124 9 8 9c1.876 0 3.426-.109 4.552-.226A.5.5 0 0 0 13 8.277V4.723a.5.5 0 0 0-.448-.497A44.304 44.304 0 0 0 8 4Zm-3 7a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm8 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm-7 0a1 1 0 0 0 1 1h2a1 1 0 1 0 0-2H7a1 1 0 0 0-1 1Z"/>
+        </svg> Buses </a>
+        </li>
+        <li class="has-dropdown">
+            <i class="uil-estate fa-fw"></i><a href=""> <i class="bi bi-people-fill"></i> Users</a>
+        </li>
+    </ul>
+</aside>
+
+<section id="wrapper">
+    <nav class="navbar navbar-expand-md">
+        <div class="container-fluid mx-2">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">CleverVision <span class="main-color">Admin</span></a>
+            </div>
+            <div class="collapse navbar-collapse" id="toggle-navbar">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"> <a class="nav-link" href="/main"> <i class="bi bi-house-door-fill"></i> HOME </a> </li>
+                    <li class="nav-item" th:if="${user.getRole()==3}"> <a class="nav-link" href="/dashboard"><i class="bi bi-shield-fill"></i> DASHBOARD</a> </li>
+                    <li  class="nav-item" th:if="${user.getRole()==2}"> <a class="nav-link" href="/driverDashboard"><i class="bi bi-shield-fill"></i> DRIVER DASHBOARD</a> </li>
+                    <li class="nav-item"> <a class="nav-link" href="/editProfile" th:text="${user.getLogin()}"><i class="bi bi-person-fill"></i></a> </li>
+                    <li class="nav-item"> <a  class="nav-link"href="/logout"><i class="bi bi-box-arrow-right"></i> LOGOUT</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+    <div class="p-4">
+        <div class="">
+            <div class="table-responsive">
+                <div class="table-wrapper">
+                    <div class="table-title">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <h2>Bus <b>Management</b></h2>
+                            </div>
+                            <div class="col-sm-7">
+                                <a href="#editEmployeeModal" data-toggle="modal" class="btn btn-secondary"><i class="material-icons"></i> <span>Add new Bus</span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th>Matricule</th>
+                            <th>Brand</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="bus : ${BusList}">
+                        <td th:text="${bus.getMat()}"></td>
+                            <td th:text="${bus.getMarque()}"></td>
+                            <td th:text="${bus.getDispo()==true?'Available':'Unavailable'}"></td>
+                            <td th:if="${bus.getDispo() ==true}">
+                                <form method="post" th:action="@{dashboardBus/deleteBus}" onsubmit="return confirm('are you sure you want to delete this bus ? ')">
+                                    <input type="hidden" name="busId" th:value="${bus.getMat()}">
+                                    <button type="submit" class="btn btn-delete">Delete</button>
+                                </form>
+                            </td>
+                            <td th:if="${bus.getDispo() ==false}">
+                                <div class="alert-danger">
+                                    You cant delete this bus now
+                                </div>
+                            </td>
+                            <td>
+                                <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="clearfix">
+                        <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+                        <ul class="pagination">
+                            <li class="page-item disabled"><a href="#">Previous</a></li>
+                            <li class="page-item"><a href="#" class="page-link">1</a></li>
+                            <li class="page-item"><a href="#" class="page-link">2</a></li>
+                            <li class="page-item active"><a href="#" class="page-link">3</a></li>
+                            <li class="page-item"><a href="#" class="page-link">4</a></li>
+                            <li class="page-item"><a href="#" class="page-link">5</a></li>
+                            <li class="page-item"><a href="#" class="page-link">Next</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="editEmployeeModal" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form method="post" id="form1" action="/AddBus" th:object="${AddBusRequest}" onsubmit="return confirm('are you sure you want to start this bus ? ')">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Add new bus</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>Matricule</label>
+                                    <input type="number" name="mat" class="form-control" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Brand</label>
+                                    <input type="text" name="marque" class="form-control" required>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                <input type="submit" class="btn btn-success" value="Add to Garage">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 </body>
 </html>
