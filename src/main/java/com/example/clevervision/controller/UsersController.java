@@ -18,12 +18,6 @@ public class UsersController {
         this.usersService = usersService;
     }
 
-    @GetMapping("/register")
-    public String getRegisterPage(Model model)
-    {
-        model.addAttribute("registerRequest",new UsersModel());
-        return "register_page";
-    }
     @GetMapping("/login")
     public String getLoginPage(Model model)
     {
@@ -37,7 +31,7 @@ public class UsersController {
 
     System.out.println("register request: "+usersModel);
     UsersModel registeredUser = usersService.registerUser(usersModel.getLogin(),usersModel.getPassword(),usersModel.getEmail());
-    return registeredUser == null ? "redirect:/register?error" : "redirect:/login" ;
+    return registeredUser == null ? "redirect:/login?error" : "redirect:/login" ;
     }
 
     @PostMapping("/login")

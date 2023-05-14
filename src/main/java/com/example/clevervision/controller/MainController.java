@@ -9,9 +9,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -172,17 +174,25 @@ public class MainController {
 
 
     @GetMapping("/dashboard")
-    public String showDashboard(Model model, HttpSession session) {
+    public String showDashboard(Model model,
+                                HttpSession session,
+                                @RequestParam(name = "page", defaultValue = "0") int page,
+                                @RequestParam(name = "size", defaultValue = "4") int size
+    ) {
         UsersModel user = (UsersModel) session.getAttribute("user");
         if (user != null) {
-            List<UsersModel> UsersList = usersService.listUsers();
+            Page<UsersModel> UsersList = usersService.getAllUsersParPage(page , size);
+//            List<UsersModel> UsersList = usersService.listUsers();
             model.addAttribute("UsersList", UsersList);
+            model.addAttribute("pages", new int[UsersList.getTotalPages()]);
+            model.addAttribute("currentPage", page);
             model.addAttribute("user",user);
             return "dashboard_page";
         } else {
             return "redirect:/login";
         }
     }
+
     @PostMapping("/dashboard/editRole")
     public String editRole(@RequestParam("id") int id,@RequestParam("role") String role , Model model, HttpSession session)
     {
@@ -192,6 +202,34 @@ public class MainController {
         model.addAttribute("user",user);
         usersService.EditRole(role,id);
         return "redirect:/dashboard";
+    }
+
+    @PostMapping("/search")
+    public String SearchByName( Model model,
+                                 @RequestParam(name="nom") String nom,
+                                 @RequestParam(name = "page", defaultValue = "0") int page,
+                                 @RequestParam(name = "size", defaultValue = "2") int size,
+                                 HttpSession session){
+
+        Page<UsersModel> filtredUsers = usersService.searchUsersContainingName(nom,page,size);
+        UsersModel user = (UsersModel) session.getAttribute("user");
+        if(filtredUsers!=null)
+        {
+            model.addAttribute("UsersList", filtredUsers);
+            model.addAttribute("pages", new int[filtredUsers.getTotalPages()]);
+            model.addAttribute("currentPage", page);
+            String msg = "Users found :";
+            model.addAttribute("foundMessage", msg);
+            model.addAttribute("user",user);
+        }
+        else{
+            Page<UsersModel> UsersList = usersService.getAllUsersParPage(page , size);
+            model.addAttribute("UsersList", UsersList);
+            model.addAttribute("pages", new int[UsersList.getTotalPages()]);
+            model.addAttribute("currentPage", page);
+            model.addAttribute("user",user);
+        }
+        return "dashboard_page";
     }
 
     }

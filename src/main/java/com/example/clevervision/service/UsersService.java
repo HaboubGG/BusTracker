@@ -4,6 +4,9 @@ import com.example.clevervision.model.UsersModel;
 import com.example.clevervision.repository.UsersRepository;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -101,6 +104,11 @@ public class UsersService {
         List<UsersModel> Users = usersRepository.findAll();
      return Users;
     }
+    public Page<UsersModel> getAllUsersParPage(int page, int size) {
+        // TODO Auto-generated method stub
+        return usersRepository.findAll(PageRequest.of(page, size));
+    }
+
     public List<UsersModel> listDrivers()
     {
         List<UsersModel> Users = usersRepository.findAllByRoleEquals(2);
@@ -128,6 +136,12 @@ public void EditRole(String role,int id)
     }
     usersRepository.save(user);
 }
+
+    public Page<UsersModel> searchUsersContainingName(String name, int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        return usersRepository.findAllByLoginContaining(name,pageable);
+
+    }
 
 
 }

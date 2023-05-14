@@ -6,6 +6,8 @@ import com.example.clevervision.model.VoyageModel;
 import com.example.clevervision.repository.BusRepository;
 import com.example.clevervision.repository.GarageRepository;
 import com.example.clevervision.repository.UsersRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +45,8 @@ public class BusService {
         List<VoyageModel> VoyageList = busRepository.findAll();
         return VoyageList;
     }
+
+
     public Boolean AddBus(int mat , String marque)
     {
         if( garageRepository.findFirstByMat(mat) == null ) {

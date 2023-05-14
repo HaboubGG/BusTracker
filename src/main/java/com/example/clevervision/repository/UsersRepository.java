@@ -2,6 +2,8 @@ package com.example.clevervision.repository;
 
 import com.example.clevervision.model.UsersModel;
 import org.apache.catalina.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.ArrayList;
@@ -16,4 +18,6 @@ public interface UsersRepository extends JpaRepository<UsersModel,Integer> {
 
     List<UsersModel> findAllByRoleEquals(int role);
     void deleteById(int id);
+    Page<UsersModel> findAllByLoginContaining(String name , Pageable pageable);
+
 }
