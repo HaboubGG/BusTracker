@@ -11,6 +11,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class CleverVisionApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(CleverVisionApplication.class, args);
     }
 

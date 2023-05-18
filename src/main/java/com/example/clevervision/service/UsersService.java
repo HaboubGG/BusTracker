@@ -1,8 +1,11 @@
 package com.example.clevervision.service;
 
+import com.example.clevervision.model.ReportModel;
 import com.example.clevervision.model.UsersModel;
+import com.example.clevervision.model.VoyageModel;
+import com.example.clevervision.repository.BusRepository;
+import com.example.clevervision.repository.ReportRepository;
 import com.example.clevervision.repository.UsersRepository;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,19 +13,20 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
 public class UsersService {
     private final UsersRepository usersRepository;
+    private final BusRepository busRepository;
+    private final ReportRepository reportRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
-    public UsersService(UsersRepository usersRepository) {
+    public UsersService(UsersRepository usersRepository, BusRepository busRepository, ReportRepository reportRepository) {
         this.usersRepository = usersRepository;
+        this.busRepository = busRepository;
+        this.reportRepository = reportRepository;
     }
 
 
@@ -38,7 +42,6 @@ public class UsersService {
         else if(login !=null && password !=null){
             UsersModel newUser = new UsersModel();
             newUser.setLogin(login);
-//            newUser.setPassword(password);
             //Spring security pour le cryptage de mot de passe
             String encodedPassword = passwordEncoder.encode(password);
             newUser.setPassword(encodedPassword);
@@ -142,6 +145,39 @@ public void EditRole(String role,int id)
         return usersRepository.findAllByLoginContaining(name,pageable);
 
     }
+
+
+    public ReportModel Report(int type , String desc , int voyId , String username)
+    {
+
+    ReportModel reportModel = new ReportModel();
+    reportModel.setDescription(desc);
+    reportModel.setType(type);
+    reportModel.setReportername(username);
+    if(voyId!=0)
+    {
+        VoyageModel voyageModel = busRepository.findFirstById(voyId);
+        reportModel.setVoy(voyageModel);
+    }
+      reportRepository.save(reportModel);
+     return  reportModel;
+    }
+
+    public ReportModel Report2(int type , String desc , String username)
+    {
+        ReportModel reportModel = new ReportModel();
+        reportModel.setDescription(desc);
+        reportModel.setType(type);
+        reportModel.setReportername(username);
+        reportRepository.save(reportModel);
+        return  reportModel;
+    }
+    public Page<ReportModel> getAllReportsParPage(int page, int size) {
+        // TODO Auto-generated method stub
+        return reportRepository.findAll(PageRequest.of(page, size));
+    }
+
+
 
 
 }

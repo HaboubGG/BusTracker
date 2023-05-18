@@ -1,10 +1,12 @@
 package com.example.clevervision.controller;
 
 import com.example.clevervision.model.BusModel;
+import com.example.clevervision.model.ReportModel;
 import com.example.clevervision.model.UsersModel;
 import com.example.clevervision.model.VoyageModel;
 import com.example.clevervision.service.BusService;
 import com.example.clevervision.service.UsersService;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.apache.coyote.Response;
@@ -231,6 +233,44 @@ public class MainController {
         }
         return "dashboard_page";
     }
+    @PostMapping("/report")
+    public String report( @RequestParam (name="desc") String desc,
+                         @RequestParam(name="type") int type,
+                         @RequestParam(name="voy" , required = false) Integer voyId ,
+                          @RequestParam(name="user") String user
+     )
+    {
 
+        // Check if voyId is null or not
+        if (voyId != null) {
+            // Handle the case when voyId is present
+            usersService.Report(type, desc, voyId, user);
+        } else {
+          usersService.Report2(type,desc,user);
+        }
+        return "redirect:/main";
+    }
+
+
+    @GetMapping("/reportsDashboard")
+    public String showReportsDashboard(Model model,
+                                       HttpSession session,
+                                       @RequestParam(name = "page", defaultValue = "0") int page,
+                                       @RequestParam(name = "size", defaultValue = "4") int size)
+    {
+
+        UsersModel user = (UsersModel) session.getAttribute("user");
+        if (user != null) {
+            Page<ReportModel> ReportsList = usersService.getAllReportsParPage(page,size);
+//            List<UsersModel> UsersList = usersService.listUsers();
+            model.addAttribute("ReportsList", ReportsList);
+            model.addAttribute("pages", new int[ReportsList.getTotalPages()]);
+            model.addAttribute("currentPage", page);
+            model.addAttribute("user",user);
+            return "dashboardReports";
+        } else {
+            return "redirect:/login";
+        }
+    }
     }
 
