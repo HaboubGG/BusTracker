@@ -1,7 +1,6 @@
 package com.example.clevervision.repository;
 
 import com.example.clevervision.model.BusModel;
-import com.example.clevervision.model.VoyageModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

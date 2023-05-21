@@ -34,7 +34,7 @@
                                 <h2>Bus <b>Management</b></h2>
                             </div>
                             <div class="col-sm-7">
-                                <a href="#editEmployeeModal" data-toggle="modal" class="btn btn-secondary"><i class="material-icons"></i> <span>Add new Bus</span></a>
+                                <a href="#editEmployeeModal" data-toggle="modal" class="btn btn-success"><i class="material-icons"></i> <span> <strong>Add new Bus</strong></span></a>
                             </div>
                         </div>
                     </div>
@@ -55,7 +55,7 @@
                             <td th:if="${bus.getDispo() ==true}">
                                 <form method="post" th:action="@{dashboardBus/deleteBus}" onsubmit="return confirm('are you sure you want to delete this bus ? ')">
                                     <input type="hidden" name="busId" th:value="${bus.getMat()}">
-                                    <button type="submit" class="btn btn-delete">Delete</button>
+                                    <button type="submit" ><i class="bi bi-trash-fill"></i><Strong style="color: darkred">Delete</Strong></button>
                                 </form>
                             </td>
                             <td th:if="${bus.getDispo() ==false}">
@@ -63,24 +63,10 @@
                                     You cant delete this bus now
                                 </div>
                             </td>
-                            <td>
-                                <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-                            </td>
+
                         </tr>
                         </tbody>
                     </table>
-                    <div class="clearfix">
-                        <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
-                        <ul class="pagination">
-                            <li class="page-item disabled"><a href="#">Previous</a></li>
-                            <li class="page-item"><a href="#" class="page-link">1</a></li>
-                            <li class="page-item"><a href="#" class="page-link">2</a></li>
-                            <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                            <li class="page-item"><a href="#" class="page-link">4</a></li>
-                            <li class="page-item"><a href="#" class="page-link">5</a></li>
-                            <li class="page-item"><a href="#" class="page-link">Next</a></li>
-                        </ul>
-                    </div>
                 </div>
             </div>
 

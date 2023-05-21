@@ -2,8 +2,8 @@ package com.example.clevervision.service;
 
 import com.example.clevervision.model.ReportModel;
 import com.example.clevervision.model.UsersModel;
-import com.example.clevervision.model.VoyageModel;
-import com.example.clevervision.repository.BusRepository;
+import com.example.clevervision.model.TravelModel;
+import com.example.clevervision.repository.TravelsRepository;
 import com.example.clevervision.repository.ReportRepository;
 import com.example.clevervision.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +19,13 @@ import java.util.List;
 @Service
 public class UsersService {
     private final UsersRepository usersRepository;
-    private final BusRepository busRepository;
+    private final TravelsRepository travelsRepository;
     private final ReportRepository reportRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
-    public UsersService(UsersRepository usersRepository, BusRepository busRepository, ReportRepository reportRepository) {
+    public UsersService(UsersRepository usersRepository, TravelsRepository travelsRepository, ReportRepository reportRepository) {
         this.usersRepository = usersRepository;
-        this.busRepository = busRepository;
+        this.travelsRepository = travelsRepository;
         this.reportRepository = reportRepository;
     }
 
@@ -117,7 +117,17 @@ public class UsersService {
         List<UsersModel> Users = usersRepository.findAllByRoleEquals(2);
         return Users;
     }
+    public List <UsersModel> listAdmins()
+    {
+       List<UsersModel>Admins = usersRepository.findAllByRoleEquals(3);
+      return Admins;
+    }
 
+    public int nbUsers()
+    {
+         int Users = usersRepository.findAll().size();
+         return Users;
+    }
 
 public void deleteUser(int id)
 {
@@ -156,8 +166,8 @@ public void EditRole(String role,int id)
     reportModel.setReportername(username);
     if(voyId!=0)
     {
-        VoyageModel voyageModel = busRepository.findFirstById(voyId);
-        reportModel.setVoy(voyageModel);
+        TravelModel travelModel = travelsRepository.findFirstById(voyId);
+        reportModel.setVoy(travelModel);
     }
       reportRepository.save(reportModel);
      return  reportModel;
@@ -175,6 +185,11 @@ public void EditRole(String role,int id)
     public Page<ReportModel> getAllReportsParPage(int page, int size) {
         // TODO Auto-generated method stub
         return reportRepository.findAll(PageRequest.of(page, size));
+    }
+
+    public int nbReports()
+    {
+        return  reportRepository.findAll().size();
     }
 
 

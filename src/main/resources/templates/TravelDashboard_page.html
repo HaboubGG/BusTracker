@@ -39,7 +39,6 @@
             </div>
             <div class="col-sm-6">
               <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="bi bi-calendar-plus-fill"></i> <span>Plan new travel</span></a>
-              <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"> <i class="bi bi-calendar2-x-fill"></i><span>Delete</span></a>
             </div>
           </div>
         </div>
@@ -60,6 +59,9 @@
           </tr>
           </thead>
           <tbody>
+          <tr>
+            <td th:if="${VoyageList==null}" colspan="5"> No Travels planned for now</td>
+          </tr>
           <tr th:each="voy:${VoyageList}">
             <td>
                                   <span class="custom-checkbox">
@@ -68,13 +70,18 @@
                                   </span>
             </td>
             <td th:text="${voy.getDestination() == 1?'Bizerte - IsetB':'IsetB - Bizerte'}" ></td>
-            <td th:text="${voy.getHeureDepart()}">thomashardy@mail.com</td>
+            <td th:text="${voy.getHeureDepart()}"></td>
             <td th:text="${voy.getBus().getMat()}"></td>
             <td th:text="${voy.getDriver().getId()}"></td>
             <td th:text="${voy.getDriver().getLogin()}"></td>
             <td>
-              <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-              <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+              <form action="/deleteTravel" method="post">
+             <input type="hidden" name="voyId" th:value="${voy.getId()}">
+                <input type="hidden" name="busId" th:value="${voy.getBus().getMat()}">
+                <input type="hidden" name="driverId" th:value="${voy.getDriver().getId()}">
+
+                <button type="submit" class="btn btn-danger" data-toggle="modal"><i class="bi bi-trash-fill"></i> <span>Cancel travel</span></button>
+              </form>
             </td>
           </tr>
           </tbody>

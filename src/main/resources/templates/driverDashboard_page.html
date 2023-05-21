@@ -100,7 +100,7 @@
                         <td>
 					<span th:if="${#temporals.createNow().getHour() == voy.getHeureDepart().getHour()
 					&& #temporals.createNow().getMinute() &gt; voy.getHeureDepart().getMinute()}">
-					<form method="post" th:action="@{dashboard/StartBusNow}" onsubmit="return confirm('are you sure you want to delete this user ? ')">
+					<form method="post" th:action="@{dashboard/StartBusNow}" onsubmit="return confirm('Launch Travel now ? ?')">
 						<input type="hidden" name="id" th:value="${voy.getId()}">
 						<button type="submit" class="btn btn-success">Start Bus Now</button>
 					</form>

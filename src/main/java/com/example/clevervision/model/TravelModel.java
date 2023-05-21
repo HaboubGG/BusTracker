@@ -2,13 +2,11 @@ package com.example.clevervision.model;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Objects;
 
 @Entity
 @Table(name="voyage_table")
-public class VoyageModel {
+public class TravelModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id ;

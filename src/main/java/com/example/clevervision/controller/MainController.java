@@ -1,21 +1,15 @@
 package com.example.clevervision.controller;
 
-import com.example.clevervision.model.BusModel;
-import com.example.clevervision.model.ReportModel;
 import com.example.clevervision.model.UsersModel;
-import com.example.clevervision.model.VoyageModel;
+import com.example.clevervision.model.TravelModel;
 import com.example.clevervision.service.BusService;
 import com.example.clevervision.service.UsersService;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,10 +31,10 @@ public class MainController {
         UsersModel user = (UsersModel) session.getAttribute("user");
         if (user != null) {
             model.addAttribute("user", user);
-            VoyageModel voyageModel = busService.VoyageData();
-            List<VoyageModel> VoyageList = busService.listVoyageMain();
-            if(voyageModel!=null) {
-                model.addAttribute("VoyageData", voyageModel.getBusPosition());
+            TravelModel travelModel = busService.VoyageData();
+            List<TravelModel> VoyageList = busService.listVoyageMain();
+            if(travelModel !=null) {
+                model.addAttribute("VoyageData", travelModel.getBusPosition());
             }
             if(VoyageList!=null)
             {
@@ -54,51 +48,15 @@ public class MainController {
     @GetMapping("/main/bus")
     public ResponseEntity<Integer> GetPosition()
     {
-        VoyageModel voyageModel = busService.VoyageData();
-        if(voyageModel!=null)
+        TravelModel travelModel = busService.VoyageData();
+        if(travelModel !=null)
         {
-            Integer data = voyageModel.getBusPosition();
+            Integer data = travelModel.getBusPosition();
             return ResponseEntity.ok(data);
         }
         else{
             return ResponseEntity.ofNullable(0);
         }
-    }
-
-    @GetMapping("/driverDashboard")
-    public String showDashboardDriverPage(Model model, HttpSession session) {
-        UsersModel user = (UsersModel) session.getAttribute("user");
-
-        if (user != null && user.getRole()==2) {
-            model.addAttribute("user", user);
-            List<VoyageModel> VoyageList = busService.listVoyage(user.getId());
-            model.addAttribute("VoyageList", VoyageList);
-            return "driverDashboard_page";
-        } else {
-            return "redirect:/login";
-        }
-    }
-    @GetMapping("/dashboardBus")
-    public String showDashboardBusPage(Model model, HttpSession session) {
-        UsersModel user = (UsersModel) session.getAttribute("user");
-        if (user != null && user.getRole()==3) {
-            List<BusModel> BusList = busService.showBusList();
-            model.addAttribute("user", user);
-            model.addAttribute("BusList",BusList);
-            return "dashboardBus_page";
-        } else {
-            return "redirect:/login";
-        }
-    }
-    @PostMapping("/dashboardBus/deleteBus")
-    public String DeleteBus(Model model , HttpSession session ,
-                            @RequestParam("busId") int mat
-    )
-    {
-        UsersModel user = (UsersModel) session.getAttribute("user");
-        busService.DeleteBus(mat);
-        model.addAttribute("user",user);
-        return "redirect:/dashboardBus?successDelete";
     }
     @RequestMapping(value="/logout", method = RequestMethod.GET)
     public String logoutPage() {
@@ -122,23 +80,7 @@ public class MainController {
         }
     }
 
-    @GetMapping("/travelDashboard")
-    public String showTravelDashboardPage(Model model, HttpSession session) {
-        UsersModel user = (UsersModel) session.getAttribute("user");
-        if (user != null && user.getRole()==3) {
-            model.addAttribute("user", user);
-            List<UsersModel> DriversList = usersService.listDrivers();
-            List<BusModel> BusList= busService.showBusDispoList();
-            List<VoyageModel> VoyageList = busService.listVoyageMain();
-            model.addAttribute("DriversList", DriversList);
-            model.addAttribute("BusList", BusList);
-            model.addAttribute("VoyageList", VoyageList);
 
-            return "TravelDashboard_page";
-        } else {
-            return "redirect:/login";
-        }
-    }
 
     @PostMapping("/editProfile")
     public String editProfile(@ModelAttribute UsersModel usersModel, Model model, HttpSession session) {
@@ -152,6 +94,7 @@ public class MainController {
         }
         else  return "redirect:/editProfile?error";
         }
+
         @PostMapping("/ChangePasswordProfile")
     public String ChangePasswordProfile(@RequestParam String currentPassword ,@RequestParam String newPassword ,@RequestParam String confirmPassword, Model model, HttpSession session) {
             System.out.println("Edit profile request: " + currentPassword + " "+ newPassword + " " + confirmPassword);
@@ -175,64 +118,11 @@ public class MainController {
         }
 
 
-    @GetMapping("/dashboard")
-    public String showDashboard(Model model,
-                                HttpSession session,
-                                @RequestParam(name = "page", defaultValue = "0") int page,
-                                @RequestParam(name = "size", defaultValue = "4") int size
-    ) {
-        UsersModel user = (UsersModel) session.getAttribute("user");
-        if (user != null) {
-            Page<UsersModel> UsersList = usersService.getAllUsersParPage(page , size);
-//            List<UsersModel> UsersList = usersService.listUsers();
-            model.addAttribute("UsersList", UsersList);
-            model.addAttribute("pages", new int[UsersList.getTotalPages()]);
-            model.addAttribute("currentPage", page);
-            model.addAttribute("user",user);
-            return "dashboard_page";
-        } else {
-            return "redirect:/login";
-        }
-    }
 
-    @PostMapping("/dashboard/editRole")
-    public String editRole(@RequestParam("id") int id,@RequestParam("role") String role , Model model, HttpSession session)
-    {
-        UsersModel user = (UsersModel) session.getAttribute("user");
-        List<UsersModel> UsersList = usersService.listUsers();
-        model.addAttribute("UsersList", UsersList);
-        model.addAttribute("user",user);
-        usersService.EditRole(role,id);
-        return "redirect:/dashboard";
-    }
 
-    @PostMapping("/search")
-    public String SearchByName( Model model,
-                                 @RequestParam(name="nom") String nom,
-                                 @RequestParam(name = "page", defaultValue = "0") int page,
-                                 @RequestParam(name = "size", defaultValue = "2") int size,
-                                 HttpSession session){
 
-        Page<UsersModel> filtredUsers = usersService.searchUsersContainingName(nom,page,size);
-        UsersModel user = (UsersModel) session.getAttribute("user");
-        if(filtredUsers!=null)
-        {
-            model.addAttribute("UsersList", filtredUsers);
-            model.addAttribute("pages", new int[filtredUsers.getTotalPages()]);
-            model.addAttribute("currentPage", page);
-            String msg = "Users found :";
-            model.addAttribute("foundMessage", msg);
-            model.addAttribute("user",user);
-        }
-        else{
-            Page<UsersModel> UsersList = usersService.getAllUsersParPage(page , size);
-            model.addAttribute("UsersList", UsersList);
-            model.addAttribute("pages", new int[UsersList.getTotalPages()]);
-            model.addAttribute("currentPage", page);
-            model.addAttribute("user",user);
-        }
-        return "dashboard_page";
-    }
+
+
     @PostMapping("/report")
     public String report( @RequestParam (name="desc") String desc,
                          @RequestParam(name="type") int type,
@@ -252,25 +142,6 @@ public class MainController {
     }
 
 
-    @GetMapping("/reportsDashboard")
-    public String showReportsDashboard(Model model,
-                                       HttpSession session,
-                                       @RequestParam(name = "page", defaultValue = "0") int page,
-                                       @RequestParam(name = "size", defaultValue = "4") int size)
-    {
 
-        UsersModel user = (UsersModel) session.getAttribute("user");
-        if (user != null) {
-            Page<ReportModel> ReportsList = usersService.getAllReportsParPage(page,size);
-//            List<UsersModel> UsersList = usersService.listUsers();
-            model.addAttribute("ReportsList", ReportsList);
-            model.addAttribute("pages", new int[ReportsList.getTotalPages()]);
-            model.addAttribute("currentPage", page);
-            model.addAttribute("user",user);
-            return "dashboardReports";
-        } else {
-            return "redirect:/login";
-        }
-    }
     }
 

@@ -2,8 +2,6 @@ package com.example.clevervision.model;
 
 import jakarta.persistence.*;
 
-import java.util.Objects;
-
 @Entity
 @Table(name="report_table")
 public class ReportModel {
@@ -13,7 +11,7 @@ public class ReportModel {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "voy")
-    VoyageModel voy;
+    TravelModel voy;
 
     String Reportername;
     int type;
@@ -35,11 +33,11 @@ public class ReportModel {
         this.id = id;
     }
 
-    public VoyageModel getVoy() {
+    public TravelModel getVoy() {
         return voy;
     }
 
-    public void setVoy(VoyageModel voy) {
+    public void setVoy(TravelModel voy) {
         this.voy = voy;
     }
 

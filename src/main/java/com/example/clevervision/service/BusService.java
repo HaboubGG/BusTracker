@@ -1,13 +1,14 @@
 package com.example.clevervision.service;
 
 import com.example.clevervision.model.BusModel;
+import com.example.clevervision.model.CompletedTravelsModel;
 import com.example.clevervision.model.UsersModel;
-import com.example.clevervision.model.VoyageModel;
-import com.example.clevervision.repository.BusRepository;
+import com.example.clevervision.model.TravelModel;
+import com.example.clevervision.repository.CompletedTravelsRepository;
+import com.example.clevervision.repository.TravelsRepository;
 import com.example.clevervision.repository.GarageRepository;
 import com.example.clevervision.repository.UsersRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import jakarta.transaction.Transactional;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -16,34 +17,43 @@ import java.util.List;
 
 @Service
 public class BusService {
-    private final BusRepository busRepository;
+    private final TravelsRepository travelsRepository;
     private final GarageRepository garageRepository;
     private  final UsersRepository usersRepository;
 
-    public BusService(BusRepository busRepository , GarageRepository garageRepository, UsersRepository usersRepository) {
-        this.busRepository = busRepository;
+    private final CompletedTravelsRepository completedTravelsRepository;
+
+    public BusService(TravelsRepository travelsRepository, GarageRepository garageRepository, UsersRepository usersRepository, CompletedTravelsRepository completedTravelsRepository) {
+        this.travelsRepository = travelsRepository;
         this.garageRepository=garageRepository;
         this.usersRepository = usersRepository;
+        this.completedTravelsRepository = completedTravelsRepository;
     }
-    public VoyageModel VoyageData()
-    {VoyageModel voyageModel = busRepository.findFirstByEnRoute(1);
-        if(voyageModel!=null){
-            return voyageModel;
+    public TravelModel VoyageData()
+    {
+        TravelModel travelModel = travelsRepository.findFirstByEnRoute(1);
+        if(travelModel !=null){
+            return travelModel;
         }
         else{
             return null;
         }
     }
 
-    public List<VoyageModel> listVoyage(int id)
+    public List<TravelModel> listVoyage(int id)
     {
-        List<VoyageModel> VoyageList = busRepository.findAllByDriverId(id);
+        List<TravelModel> VoyageList = travelsRepository.findAllByDriverId(id);
         return VoyageList;
     }
-    public List<VoyageModel> listVoyageMain()
+    public List<TravelModel> listVoyageMain()
     {
-        List<VoyageModel> VoyageList = busRepository.findAll();
+        List<TravelModel> VoyageList = travelsRepository.findAll();
         return VoyageList;
+    }
+    public int nbVoyageAttente()
+    {
+        int nb = travelsRepository.findAllByEnRoute(0).size();
+        return nb;
     }
 
 
@@ -80,7 +90,7 @@ public class BusService {
 
     public void AddVoyage(int busId , int destination , int driverId , LocalTime startTime)
     {
-        VoyageModel newVoy = new VoyageModel();
+        TravelModel newVoy = new TravelModel();
         newVoy.setHeureDepart(startTime);
         newVoy.setHeureArrive(startTime.plusMinutes(20));
         newVoy.setEnRoute(0);
@@ -96,20 +106,29 @@ public class BusService {
         newVoy.setBus(RelatedBus);
         newVoy.setDestination(destination);
         newVoy.setDriver(RelatedDriver);
-        busRepository.save(newVoy);
+        travelsRepository.save(newVoy);
+    }
+
+    @Transactional
+    public void deleteVoy(int voyId , int driverId , int busId)
+    {
+        UsersModel driver = usersRepository.findFirstById(driverId);
+        BusModel bus = garageRepository.findFirstByMat(busId);
+        travelsRepository.deleteByIdAndBusAndDriver(voyId,bus,driver);
     }
     public void StartBusNow(int id)
     {
-        VoyageModel bus = busRepository.findFirstById(id);
+        TravelModel bus = travelsRepository.findFirstById(id);
         bus.setEnRoute(1);
         bus.getBus().setDispo(false);
-        busRepository.save(bus);
-    }
+        travelsRepository.save(bus);
 
+    }
+    @Transactional
     @Scheduled(fixedRate = 1000) // Run every second
     public void updateBusPositions() {
         // Get the current positions of all buses
-        VoyageModel bus = busRepository.findFirstByEnRoute(1);
+        TravelModel bus = travelsRepository.findFirstByEnRoute(1);
         if (bus != null) {
             //check if desination 1 : bizerte -> iset / 2 : iset -> bizerte
             if(bus.getDestination()==1){
@@ -118,12 +137,21 @@ public class BusService {
                     // Update the position of each bus
                     bus.setBusPosition(bus.getBusPosition() + 1);
                     // Save the updated bus positions to the database
-                    busRepository.save(bus);
+                    travelsRepository.save(bus);
                 }
                 else{
                     bus.setEnRoute(0);
-                    bus.getBus().setDispo(true);
-                    busRepository.deleteById(bus.getId());
+                    BusModel busModel = garageRepository.findFirstByMat(bus.getBus().getMat());
+                    busModel.setDispo(true);
+                    garageRepository.save(busModel);
+                    CompletedTravelsModel completedTravelsModel = new CompletedTravelsModel();
+                    completedTravelsModel.setBusMat(bus.getBus().getMat());
+                    completedTravelsModel.setDriverId(bus.getDriver().getId());
+                    completedTravelsModel.setDestination(bus.getDestination());
+                    completedTravelsModel.setHeureArrive(bus.getHeureArrive());
+                    completedTravelsModel.setHeureDepart(bus.getHeureDepart());
+                    completedTravelsRepository.save(completedTravelsModel);
+                    deleteVoy(bus.getId(), bus.getDriver().getId() ,bus.getBus().getMat());
                 }
             }
             else if (bus.getDestination()==2){
@@ -132,12 +160,22 @@ public class BusService {
                     // Update the position of each bus
                     bus.setBusPosition(bus.getBusPosition() - 1);
                     // Save the updated bus positions to the database
-                    busRepository.save(bus);
+                    travelsRepository.save(bus);
                 }
+
                 else{
                     bus.setEnRoute(0);
-                    bus.getBus().setDispo(true);
-                    busRepository.deleteById(bus.getId());
+                    BusModel busModel = garageRepository.findFirstByMat(bus.getBus().getMat());
+                    busModel.setDispo(true);
+                    garageRepository.save(busModel);
+                    CompletedTravelsModel completedTravelsModel = new CompletedTravelsModel();
+                    completedTravelsModel.setBusMat(bus.getBus().getMat());
+                    completedTravelsModel.setDriverId(bus.getDriver().getId());
+                    completedTravelsModel.setDestination(bus.getDestination());
+                    completedTravelsModel.setHeureArrive(bus.getHeureArrive());
+                    completedTravelsModel.setHeureDepart(bus.getHeureDepart());
+                    completedTravelsRepository.save(completedTravelsModel);
+                    deleteVoy(bus.getId(), bus.getDriver().getId() ,bus.getBus().getMat());
                 }
             }
         }
