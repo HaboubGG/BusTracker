@@ -6,7 +6,7 @@ import java.time.LocalTime;
 
 @Entity
 @Table(name="CompletedTravels_table")
-public class CompletedTravelsModel {
+public class CompletedTravelModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id ;
@@ -18,10 +18,9 @@ public class CompletedTravelsModel {
 
      Integer busMat;
      Integer driverId;
-public CompletedTravelsModel(){
+public CompletedTravelModel(){
 
 }
-
     public Integer getId() {
         return id;
     }

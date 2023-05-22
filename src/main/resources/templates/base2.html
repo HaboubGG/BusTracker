@@ -28,35 +28,35 @@
   <div class="sidebar-header d-flex justify-content-center align-items-center px-3 py-4">
     <img
             class="rounded-pill img-fluid"
-            width="65"
-            src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907008/medium/1501685726/enhance"
-            alt="">
-
-    <div class="ms-2">
+            width="50"
+            src="img/admin.png">
       <h5 class="fs-6 mb-0">
         <a class="text-decoration-none" th:text="${user.getLogin()}"></a>
       </h5>
     </div>
   </div>
-  <ul class="categories list-unstyled">
-    <li class="has-dropdown">
-      <i class="uil-estate fa-fw"></i><a href="/dashboard"> Dashboard</a>
+
+  <ul class="categories list-unstyled" style="font-weight: bold">
+    <li class="has-dropdown" >
+      <a href="/dashboard"> <h5>Dashboard</h5></a>
     </li>
-    <li class="has-dropdown">
-      <i class="uil-estate fa-fw"></i><a href="/travelDashboard"> <i class="bi bi-bookmark-fill"></i> Travel </a>
+    <li class="dropdown">
+     <a href="/travelDashboard"> <i class="bi bi-bookmark-fill"></i> Travel </a>
     </li>
-    <li class="has-dropdown">
-      <i class="uil-estate fa-fw"></i><a href="/dashboardBus"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bus-front-fill" viewBox="0 0 16 16">
+    <li class="dropdown">
+      <a href="/dashboardBus"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bus-front-fill" viewBox="0 0 16 16">
       <path d="M16 7a1 1 0 0 1-1 1v3.5c0 .818-.393 1.544-1 2v2a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5V14H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2a2.496 2.496 0 0 1-1-2V8a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1V2.64C1 1.452 1.845.408 3.064.268A43.608 43.608 0 0 1 8 0c2.1 0 3.792.136 4.936.268C14.155.408 15 1.452 15 2.64V4a1 1 0 0 1 1 1v2ZM3.552 3.22A43.306 43.306 0 0 1 8 3c1.837 0 3.353.107 4.448.22a.5.5 0 0 0 .104-.994A44.304 44.304 0 0 0 8 2c-1.876 0-3.426.109-4.552.226a.5.5 0 1 0 .104.994ZM8 4c-1.876 0-3.426.109-4.552.226A.5.5 0 0 0 3 4.723v3.554a.5.5 0 0 0 .448.497C4.574 8.891 6.124 9 8 9c1.876 0 3.426-.109 4.552-.226A.5.5 0 0 0 13 8.277V4.723a.5.5 0 0 0-.448-.497A44.304 44.304 0 0 0 8 4Zm-3 7a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm8 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm-7 0a1 1 0 0 0 1 1h2a1 1 0 1 0 0-2H7a1 1 0 0 0-1 1Z"/>
     </svg> Buses </a>
     </li>
-    <li class="has-dropdown">
-      <i class="uil-estate fa-fw"></i><a href="/usersDashboard"> <i class="bi bi-people-fill"></i> Users</a>
+    <li class="dropdown">
+      <a href="/usersDashboard"> <i class="bi bi-people-fill"></i> Users</a>
     </li>
-    <li class="has-dropdown">
-      <i class="uil-estate fa-fw"></i><a href="/reportsDashboard"> <i class="bi bi-flag-fill"></i> Reports</a>
+    <li class="dropdown">
+     <a href="/reportsDashboard"> <i class="bi bi-flag-fill"></i> Reports</a>
     </li>
-
+    <li class="dropdown">
+      <a href="/completedTravels"> <i class="bi bi-calendar-check-fill"></i> Completed Travels</a>
+    </li>
   </ul></aside>
 <main layout:fragment="content">
 </main>

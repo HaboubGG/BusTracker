@@ -54,6 +54,33 @@ public class UsersService {
             return null;
         }
     }
+
+
+    public UsersModel registerAdmin(String login , String password , String email)
+    {
+        //Verification Email unique
+        if(usersRepository.findFirstByEmail(email)!=null)
+        {
+            System.out.println("Email is already used by another account");
+            return null;
+        }
+        //Verification des champs
+        else if(login !=null && password !=null){
+            UsersModel newUser = new UsersModel();
+            newUser.setLogin(login);
+            //Spring security pour le cryptage de mot de passe
+            String encodedPassword = passwordEncoder.encode(password);
+            newUser.setPassword(encodedPassword);
+            newUser.setEmail(email);
+            newUser.setRole(3);
+            return usersRepository.save(newUser);
+        }
+        else
+        {
+            return null;
+        }
+    }
+
     public UsersModel authenticate(String email , String password)
     {
         // 1 - verification de l"email

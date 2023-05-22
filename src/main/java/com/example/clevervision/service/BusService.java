@@ -1,7 +1,7 @@
 package com.example.clevervision.service;
 
 import com.example.clevervision.model.BusModel;
-import com.example.clevervision.model.CompletedTravelsModel;
+import com.example.clevervision.model.CompletedTravelModel;
 import com.example.clevervision.model.UsersModel;
 import com.example.clevervision.model.TravelModel;
 import com.example.clevervision.repository.CompletedTravelsRepository;
@@ -50,6 +50,7 @@ public class BusService {
         List<TravelModel> VoyageList = travelsRepository.findAll();
         return VoyageList;
     }
+
     public int nbVoyageAttente()
     {
         int nb = travelsRepository.findAllByEnRoute(0).size();
@@ -71,6 +72,19 @@ public class BusService {
             return false;
         }
     }
+    public Boolean EditBus(int mat , String marque)
+    {
+        BusModel bus = garageRepository.findFirstByMat(mat);
+        if( bus!=null) {
+            bus.setMarque(marque);
+            garageRepository.save(bus);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     public void DeleteBus(int id )
     {
         garageRepository.deleteById(id);
@@ -85,6 +99,12 @@ public class BusService {
     {
         List <BusModel> busList = garageRepository.findAllByDispo(true);
         return busList;
+    }
+
+    public List<CompletedTravelModel> showCompletedTravels()
+    {
+        List<CompletedTravelModel> voyageList = completedTravelsRepository.findAll();
+        return voyageList;
     }
 
 
@@ -144,13 +164,13 @@ public class BusService {
                     BusModel busModel = garageRepository.findFirstByMat(bus.getBus().getMat());
                     busModel.setDispo(true);
                     garageRepository.save(busModel);
-                    CompletedTravelsModel completedTravelsModel = new CompletedTravelsModel();
-                    completedTravelsModel.setBusMat(bus.getBus().getMat());
-                    completedTravelsModel.setDriverId(bus.getDriver().getId());
-                    completedTravelsModel.setDestination(bus.getDestination());
-                    completedTravelsModel.setHeureArrive(bus.getHeureArrive());
-                    completedTravelsModel.setHeureDepart(bus.getHeureDepart());
-                    completedTravelsRepository.save(completedTravelsModel);
+                    CompletedTravelModel completedTravelModel = new CompletedTravelModel();
+                    completedTravelModel.setBusMat(bus.getBus().getMat());
+                    completedTravelModel.setDriverId(bus.getDriver().getId());
+                    completedTravelModel.setDestination(bus.getDestination());
+                    completedTravelModel.setHeureArrive(bus.getHeureArrive());
+                    completedTravelModel.setHeureDepart(bus.getHeureDepart());
+                    completedTravelsRepository.save(completedTravelModel);
                     deleteVoy(bus.getId(), bus.getDriver().getId() ,bus.getBus().getMat());
                 }
             }
@@ -168,13 +188,13 @@ public class BusService {
                     BusModel busModel = garageRepository.findFirstByMat(bus.getBus().getMat());
                     busModel.setDispo(true);
                     garageRepository.save(busModel);
-                    CompletedTravelsModel completedTravelsModel = new CompletedTravelsModel();
-                    completedTravelsModel.setBusMat(bus.getBus().getMat());
-                    completedTravelsModel.setDriverId(bus.getDriver().getId());
-                    completedTravelsModel.setDestination(bus.getDestination());
-                    completedTravelsModel.setHeureArrive(bus.getHeureArrive());
-                    completedTravelsModel.setHeureDepart(bus.getHeureDepart());
-                    completedTravelsRepository.save(completedTravelsModel);
+                    CompletedTravelModel completedTravelModel = new CompletedTravelModel();
+                    completedTravelModel.setBusMat(bus.getBus().getMat());
+                    completedTravelModel.setDriverId(bus.getDriver().getId());
+                    completedTravelModel.setDestination(bus.getDestination());
+                    completedTravelModel.setHeureArrive(bus.getHeureArrive());
+                    completedTravelModel.setHeureDepart(bus.getHeureDepart());
+                    completedTravelsRepository.save(completedTravelModel);
                     deleteVoy(bus.getId(), bus.getDriver().getId() ,bus.getBus().getMat());
                 }
             }

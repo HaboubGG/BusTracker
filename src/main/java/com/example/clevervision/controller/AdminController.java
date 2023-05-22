@@ -1,9 +1,6 @@
 package com.example.clevervision.controller;
 
-import com.example.clevervision.model.BusModel;
-import com.example.clevervision.model.ReportModel;
-import com.example.clevervision.model.UsersModel;
-import com.example.clevervision.model.TravelModel;
+import com.example.clevervision.model.*;
 import com.example.clevervision.service.BusService;
 import com.example.clevervision.service.UsersService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -85,16 +82,20 @@ public class AdminController {
             return "redirect:/login";
         }
     }
-
-    @PostMapping("/dashboard/editRole")
-    public String editRole(@RequestParam("id") int id,@RequestParam("role") String role , Model model, HttpSession session)
+    @PostMapping("/editRole")
+    public String editRole(@RequestParam("id") int id,@RequestParam("role") String role ,
+                           Model model, HttpSession session,
+                           @RequestParam(name = "page", defaultValue = "0") int page,
+                           @RequestParam(name = "size", defaultValue = "4") int size)
     {
         UsersModel user = (UsersModel) session.getAttribute("user");
-        List<UsersModel> UsersList = usersService.listUsers();
+        Page<UsersModel> UsersList = usersService.getAllUsersParPage(page , size);
         model.addAttribute("UsersList", UsersList);
+        model.addAttribute("pages", new int[UsersList.getTotalPages()]);
+        model.addAttribute("currentPage", page);
         model.addAttribute("user",user);
         usersService.EditRole(role,id);
-        return "redirect:/dashboard";
+        return "dashboardUsers_page";
     }
 
     @PostMapping("/search")
@@ -122,7 +123,7 @@ public class AdminController {
             model.addAttribute("currentPage", page);
             model.addAttribute("user",user);
         }
-        return "dashboard_page";
+        return "dashboardUsers_page";
     }
 //TraveLS
     @GetMapping("/travelDashboard")
@@ -213,20 +214,21 @@ public class AdminController {
         }
     }
 
-
-    @GetMapping("/test")
-    public String test(Model model)
-    {
-        List<UsersModel> UsersList = usersService.listUsers();
-        int[] salesData = {100, 150, 200, 250, 300};
-        String[] months = {"Jan", "Feb", "Mar", "Apr", "May"};
-
-        model.addAttribute("salesData", salesData);
-        model.addAttribute("months", months);
-
-//        model.addAttribute("usersJson", UsersList);
-        return("test");
+@GetMapping("/completedTravels")
+    public String showCompletedTravelsPage(Model model , HttpSession session)
+{
+    UsersModel user = (UsersModel) session.getAttribute("user");
+    if (user != null && user.getRole()==3) {
+        model.addAttribute("user", user);
+        List<CompletedTravelModel> completedTravelModelList = busService.showCompletedTravels();
+        if(completedTravelModelList !=null) {
+            model.addAttribute("VoyageList", completedTravelModelList);
+        }
+        return "CompletedTravelDashboard_page";
+    } else {
+        return "redirect:/login";
     }
+}
 
 
 }

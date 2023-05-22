@@ -1,5 +1,6 @@
 package com.example.clevervision.controller;
 
+import com.example.clevervision.model.CompletedTravelModel;
 import com.example.clevervision.model.UsersModel;
 import com.example.clevervision.model.TravelModel;
 import com.example.clevervision.service.BusService;
@@ -33,13 +34,19 @@ public class MainController {
             model.addAttribute("user", user);
             TravelModel travelModel = busService.VoyageData();
             List<TravelModel> VoyageList = busService.listVoyageMain();
+            List<CompletedTravelModel> VoyageList2 = busService.showCompletedTravels();
             if(travelModel !=null) {
                 model.addAttribute("VoyageData", travelModel.getBusPosition());
+            }
+            if (VoyageList2!=null)
+            {
+                model.addAttribute("CompletedVoyageList",VoyageList2 );
             }
             if(VoyageList!=null)
             {
                 model.addAttribute("VoyageList", VoyageList);
             }
+
             return "main_page";
         } else {
             return "redirect:/login";

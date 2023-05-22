@@ -57,6 +57,16 @@ public class BusController {
        model.addAttribute("user",user);
        return bus == true ?  "redirect:/dashboardBus?success" : "redirect:/dashboardBus?error";
    }
+   @PostMapping("/EditBus")
+    public String EditBus(Model model , HttpSession session ,
+                          @RequestParam("id") int mat ,
+                          @RequestParam("Newmarque") String marque )
+   {
+       UsersModel user = (UsersModel) session.getAttribute("user");
+       Boolean bus =  busService.EditBus(mat,marque);
+       model.addAttribute("user",user);
+       return bus == true ?  "redirect:/dashboardBus" : "redirect:/dashboardBus?";
+   }
 
 
 }

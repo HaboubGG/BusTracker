@@ -11,7 +11,7 @@
     <!--Navigation Bar-->
     <header>
     </header>
-
+<div class="card-body ms-sm-3">
     <div class="d-flex flex-row">
 
         <div class="card" style="width: 250rem;" >
@@ -150,9 +150,9 @@
                         </div>
                         <div class="form-group">
                             <div id="additionalInput" style="display: none;">
-                                <label>Select Travel </label>
+                                <label>Select Completed Travel </label>
                                 <select class="form-select" name="voy">
-                                    <option th:each="voy : ${VoyageList}" th:value="${voy.getId()}" th:text="${voy.getHeureDepart()}">Voyage: </option>
+                                    <option th:each="voy : ${CompletedVoyageList}" th:value="${voy.getId()}" th:text="${voy.getHeureDepart()}">Voyage: </option>
                                 </select>
                             </div>
                         </div>
@@ -171,7 +171,7 @@
             </div>
         </div>
     </div>
-
+</div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script th:inline="javascript">
         const canvas = document.getElementById("canvas");

@@ -6,6 +6,21 @@
 </head>
 
 <section id="wrapper" layout:fragment="content">
+  <script th:inline="javascript">
+    $(document).ready(function() {
+      $('.edit-bus-btn').click(function() {
+        var id = $(this).data('id');
+        var destination = $(this).data('destination');
+        var heureDepart = $(this).data('HeureDepart');
+
+        $('#idTravel').val(id);
+        $('#Destination').val(destination);
+        $('#DepartTime').val(heureDepart);
+      });
+    });
+
+  </script>
+
   <nav class="navbar navbar-expand-md">
     <div class="container-fluid mx-2">
       <div class="navbar-header">
@@ -74,14 +89,18 @@
             <td th:text="${voy.getBus().getMat()}"></td>
             <td th:text="${voy.getDriver().getId()}"></td>
             <td th:text="${voy.getDriver().getLogin()}"></td>
-            <td>
+            <td th:if="${voy.getEnRoute()==0}">
               <form action="/deleteTravel" method="post">
              <input type="hidden" name="voyId" th:value="${voy.getId()}">
                 <input type="hidden" name="busId" th:value="${voy.getBus().getMat()}">
                 <input type="hidden" name="driverId" th:value="${voy.getDriver().getId()}">
-
                 <button type="submit" class="btn btn-danger" data-toggle="modal"><i class="bi bi-trash-fill"></i> <span>Cancel travel</span></button>
               </form>
+            </td>
+            <td th:if="${voy.getEnRoute()==1}" colspan="4">
+              <div class="alert alert-warning" role="alert">
+                <strong>Bus</strong> on the way now. You cant delete
+              </div>
             </td>
           </tr>
           </tbody>
@@ -136,6 +155,8 @@
         </div>
       </div>
     </div>
+
+
   </div>
 </section>
 </body>
