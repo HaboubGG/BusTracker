@@ -139,7 +139,7 @@ public class MainController {
     {
 
         // Check if voyId is null or not
-        if (voyId != null) {
+        if (voyId != 0) {
             // Handle the case when voyId is present
             usersService.Report(type, desc, voyId, user);
         } else {

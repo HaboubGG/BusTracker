@@ -152,7 +152,8 @@
                             <div id="additionalInput" style="display: none;">
                                 <label>Select Completed Travel </label>
                                 <select class="form-select" name="voy">
-                                    <option th:each="voy : ${CompletedVoyageList}" th:value="${voy.getId()}" th:text="${voy.getHeureDepart()}">Voyage: </option>
+                                    <option selected value="0"></option>
+                                    <option th:each="voy : ${VoyageList}" th:value="${voy.getId()}" th:text="${voy.getHeureDepart()}">Voyage: </option>
                                 </select>
                             </div>
                         </div>

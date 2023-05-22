@@ -165,6 +165,7 @@ public class BusService {
                     busModel.setDispo(true);
                     garageRepository.save(busModel);
                     CompletedTravelModel completedTravelModel = new CompletedTravelModel();
+                    completedTravelModel.setId(bus.getId());
                     completedTravelModel.setBusMat(bus.getBus().getMat());
                     completedTravelModel.setDriverId(bus.getDriver().getId());
                     completedTravelModel.setDestination(bus.getDestination());
@@ -189,6 +190,7 @@ public class BusService {
                     busModel.setDispo(true);
                     garageRepository.save(busModel);
                     CompletedTravelModel completedTravelModel = new CompletedTravelModel();
+                    completedTravelModel.setId(bus.getId());
                     completedTravelModel.setBusMat(bus.getBus().getMat());
                     completedTravelModel.setDriverId(bus.getDriver().getId());
                     completedTravelModel.setDestination(bus.getDestination());

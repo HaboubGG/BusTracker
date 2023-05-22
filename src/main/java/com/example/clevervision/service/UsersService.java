@@ -1,5 +1,6 @@
 package com.example.clevervision.service;
 
+import com.example.clevervision.model.CompletedTravelModel;
 import com.example.clevervision.model.ReportModel;
 import com.example.clevervision.model.UsersModel;
 import com.example.clevervision.model.TravelModel;
@@ -194,7 +195,7 @@ public void EditRole(String role,int id)
     if(voyId!=0)
     {
         TravelModel travelModel = travelsRepository.findFirstById(voyId);
-        reportModel.setVoy(travelModel);
+        reportModel.setPassedTravelTime(travelModel.getHeureDepart());
     }
       reportRepository.save(reportModel);
      return  reportModel;

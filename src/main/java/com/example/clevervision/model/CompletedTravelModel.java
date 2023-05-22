@@ -7,8 +7,7 @@ import java.time.LocalTime;
 @Entity
 @Table(name="CompletedTravels_table")
 public class CompletedTravelModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Id
     Integer id ;
     LocalTime HeureDepart;
 

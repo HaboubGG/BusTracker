@@ -55,9 +55,7 @@
               <span  th:if="${report.getType() == 4}">Incorrect Bus Position Information</span>
             </td>
             <td th:text="${report.getDescription()}"></td>
-            <td th:if="${report.getVoy()!=null}" th:text="${report.getVoy().getId()}"></td>
-            <td th:if="${report.getVoy()==null}" >No travel associated</td>
-
+         <td th:text="${report.getPassedTravelTime()}"></td>
           </tr>
           </tbody>
         </table>

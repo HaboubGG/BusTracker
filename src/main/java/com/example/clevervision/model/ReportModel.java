@@ -1,6 +1,9 @@
 package com.example.clevervision.model;
 
+import com.example.clevervision.repository.CompletedTravelsRepository;
 import jakarta.persistence.*;
+
+import java.time.LocalTime;
 
 @Entity
 @Table(name="report_table")
@@ -8,10 +11,15 @@ public class ReportModel {
     @GeneratedValue
     @Id
     int id ;
+    LocalTime PassedTravelTime;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "voy")
-    TravelModel voy;
+    public LocalTime getPassedTravelTime() {
+        return PassedTravelTime;
+    }
+
+    public void setPassedTravelTime(LocalTime passedTravelTime) {
+        PassedTravelTime = passedTravelTime;
+    }
 
     String Reportername;
     int type;
@@ -33,13 +41,7 @@ public class ReportModel {
         this.id = id;
     }
 
-    public TravelModel getVoy() {
-        return voy;
-    }
 
-    public void setVoy(TravelModel voy) {
-        this.voy = voy;
-    }
 
     public String getReportername() {
         return Reportername;
